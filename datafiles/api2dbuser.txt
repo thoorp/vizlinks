@@ -1,0 +1,17 @@
+*api	*database	*dbuser
+customers-api	oracle ods10	ods-wr10
+customers-api	oracle ods10	cc11 new
+accounts-api	oracle ods10	ods-wr10
+accounts-api	oracle cc11	cc11
+accounts-api	oracle tds12	tds12
+transfers-soap-v1	oracle ods10	ods-wr10
+transfers-soap-v1	oracle tds12	tds12
+transfers-api	oracle ods10	ods-wr10
+transfers-api	oracle tds12	tds12
+estatements-soap-v1	oracle es01	esr01
+usps-address-v1	db2 usps	usr01
+rsa-security-adapter-v2	oracle rsa	sec01
+ldap-user-profile-v1	ldap web	sec01
+master-data-v2	db2 mdm	mdmr1
+master-data-rs-v1	db2 mdm	mdmr1
+document-system-v1	terradata ds100	dsrw

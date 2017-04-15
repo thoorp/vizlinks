@@ -1,0 +1,13 @@
+*api	description	*domain
+customers-api	customers api to hold customer info	tomcat7 ec311
+accounts-api	accounts info	tomcat7 ec311
+transfers-soap-v1	transfers info soap	tomcat7 ec311
+transfers-api	transfers info	tomcat7 ec311
+estatements-soap-v1	estatements info	tomcat7 ec311
+usps-address-v1	usps info	websphere7 usps
+rsa-security-adapter-v2	rsa info	weblogic11g rsa
+ldap-user-profile-v1	ldap info	weblogic12c b3
+master-data-v2	master data info	websphere7 mdm
+master-data-rs-v1	master data info2	websphere7 mdm
+bliss-marketing-v1	bliss info	vendor
+document-system-v1	document sys	websphere7 ds

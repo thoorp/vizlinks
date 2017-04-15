@@ -1,3 +1,12 @@
 *api	*function	*api	*function
 customers-api	POST /customers/{reserve-id}/personal	master-data-v2	retrievePartyDetails
 customers-api	POST /customers/{reserve-id}/personal	master-data-v2	persistParty
+customers-api	GET /customers/{reserve-id}/security	rsa-security-adapter-v2	retrieveSecurityQuestions
+customers-api	GET /customers/{reserve-id}/security	ldap-user-profile-v1	validateUserID
+customers-api	POST /customers/{reserve-id}/security	rsa-security-adapter-v2	saveSecurityQuestionAnswers
+customers-api	POST /customers/{reserve-id}	master-data-v2	persistParty
+customers-api	POST /customers/{reserve-id}	ldap-user-profile-v1	createUser
+accounts-api	POST /accounts/{reserve-id}	master-data-v2	persistParty
+estatements-soap-v1	retrieveStatementContent	document-system-v1	getLegacyDocument
+transfers-soap-v1	submitTransfer	master-data-v2	persistParty
+master-data-v2	persistParty	ldap-user-profile-v1	createUser

@@ -1,0 +1,22 @@
+*app	*page	*api	*function
+Registration	GET /newcustomer/info	customers-api	POST /customers/{reserve-id}/personal
+Registration	GET /newcustomer/info	usps-address-v1	validateAddress
+Registration	GET /newcustomer/security	customers-api	GET /customers/{reserve-id}/security
+Registration	POST /newcustomer/registration	customers-api	POST /customers/{reserve-id}/security
+Registration	POST /newcustomer/registration	customers-api	POST /customers/{reserve-id}
+Registration	POST /newcustomer/registration	valassis-marketing	updateCustomerPrefs
+Registration	POST /newcustomer/thankyou	valassis-marketing	retrieveCampaigns
+***Open Account	GET /newaccount/select	valassis-marketing	retrieveCampaigns
+Open Account	GET /newaccount/funds	accounts-api	POST /accounts/{reserve-id}/initial-deposit
+Open Account	POST /newaccount/open	accounts-api	POST /accounts/{reserve-id}
+Open Account	POST /newaccount/thankyou	bliss-marketing-v1	bretrieveCampaigns
+Open Account	POST /newaccount/thankyou	bliss-marketing-v1	bupdateCustomerPrefs
+Account Balances	GET /accountbalances/summary	accounts-api	GET /customers/{id}/accounts
+Account Balances	GET /accountbalances/summary	master-data-v2	retrievePartyDetails
+Account Balances	GET /accountbalances/txhistory	accounts-api	GET /accounts/{id}/transaction-history
+Transfers	GET /transfers/details	transfers-soap-v1	retrievePendingTransfers
+Transfers	POST /transfers/submit	transfers-soap-v1	submitTransfer
+Transfers	POST /transfers/confirmation	valassis-marketing	retrieveCampaigns
+Transfers	GET /transfers/pending	transfers-soap-v1	retrievePendingTransfers
+eStatements	GET /estatements/home	estatements-soap-v1	retrieveStatements
+eStatements	GET /estatements/{secure-statement-id}	estatements-soap-v1	retrieveStatementContent

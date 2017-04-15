@@ -1,0 +1,7 @@
+*app	*screen	*api	*function
+Mobile App	Accounts Summary	accounts-api	GET /customers/{id}/accounts
+Mobile App	Accounts Summary	master-data-rs-v1	GET /parties/{id}
+Mobile App	Transaction History	accounts-api	GET /accounts/{id}/transaction-history
+Mobile App	Transfer Details	transfers-api	GET /customers/{id}/transfers/pending
+Mobile App	Preview and Submit Transfer	transfers-api	POST /customers/{id}/transfer
+Mobile App	Pending Transfers	transfers-api	GET /customers/{id}/transfers/pending

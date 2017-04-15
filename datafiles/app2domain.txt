@@ -1,0 +1,6 @@
+*app	*domain
+Registration	tomcat7 ec321
+Open Account	tomcat7 ec321
+Account Balances	weblogic12c a1
+Transfers	weblogic12c a1
+eStatements	websphere8 edoc

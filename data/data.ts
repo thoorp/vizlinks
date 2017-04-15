@@ -40,7 +40,7 @@ module.exports.readData = function () {
 module.exports.readConfigFiles = function () {
     return new Promise((resolve, reject) => {
 
-        var configfile = path.join(__dirname, '..', 'configfiles', 'testconfig.json');
+        var configfile = path.join(__dirname, '..', 'configfiles', 'NodeTypeConfig.json');
         fs.readFileAsync(configfile, 'utf8').then((configdata) => {
             loadedData.configData = JSON.parse(configdata);
             console.log("Config parsed", loadedData.configData["app"].level);
