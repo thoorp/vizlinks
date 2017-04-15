@@ -1,0 +1,3 @@
+*api	*function	*api	*function
+customers-api	POST /customers/{reserve-id}/personal	master-data-v2	retrievePartyDetails
+customers-api	POST /customers/{reserve-id}/personal	master-data-v2	persistParty

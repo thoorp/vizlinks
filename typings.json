@@ -1,0 +1,11 @@
+{
+  "globalDependencies": {
+    "mocha": "registry:dt/mocha#2.2.5+20170311011848",
+    "node": "registry:env/node#6.0.0+20170213133316"
+  },
+  "dependencies": {
+    "bluebird": "registry:npm/bluebird#3.5.0+20170314181206",
+    "chai": "registry:npm/chai#3.5.0+20160723033700",
+    "express": "registry:npm/express#4.14.0+20170217205433"
+  }
+}

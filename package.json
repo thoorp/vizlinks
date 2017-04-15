@@ -1,0 +1,26 @@
+{
+  "name": "vizdotsNodeapi",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha -r ts-node/register data/tests/testDataClass.ts"
+  },
+  "dependencies": {
+    "@types/chai": "^3.5.0",
+    "@types/mocha": "^2.2.40",
+    "@types/node": "^7.0.12",
+    "bluebird": "^3.5.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "collections": "^5.0.6",
+    "express": "4.13.4",
+    "finish": "^0.6.3",
+    "jade": "*",
+    "ts-node": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.0",
+    "@types/mocha": "^2.2.40"
+  }
+}
