@@ -7,6 +7,8 @@ import { Link } from "../Link";
 import { BudNodes } from "../BudNodes";
 import { Links } from "../Links";
 
+var data = require('../data/data');
+
 var configstr = '{"app": {"level": "TOP_INDEPENDENT_LEVEL", "rank": 1}, "function": {"level": "DEPENDENT_LEVEL",    "rank": 2}'
     + ',  "api": { "level": "TOP_INDEPENDENT_LEVEL", "rank": 1}'
     +', "domain": {"level": "TOP_INDEPENDENT_LEVEL",  "rank": 2}}';
@@ -78,12 +80,15 @@ function LinksTest() {
     });
 }
 
+function DataTest(){
+    //data.processFile(err,data);    
+}
 
 describe('Dataclasses', function () {
     describe('BudNode', BudNodeTest);
     describe('BudNodes', BudNodesTest);
     describe('Link', LinkTest);
     describe('Links', LinksTest);
-
+    describe('Data',DataTest);
 
 });

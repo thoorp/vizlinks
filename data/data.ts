@@ -24,7 +24,7 @@ module.exports.readData = function () {
             // Promise.map awaits for returned promises as well.
             f = path.join(datafilespath, f);
             return fs.readFileAsync(f, 'utf8').then((fileData) => {
-                return processfile(err, fileData)
+                return processFile(err, fileData)
             });
 
         }).then(function () {
@@ -51,7 +51,7 @@ module.exports.readConfigFiles = function () {
 
 
 
-function processfile(err, data) {
+function processFile(err, data) {
     return new Promise((resolve, reject) => {
         if (err) throw err;
         var dataArray = [];
