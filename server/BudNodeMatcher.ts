@@ -30,7 +30,7 @@ export class BudNodeDots {
     //Store all up/down stream nodes for each active node
 
 
-    dependentBudNodes: Map<BudNode, Array<BudNode>> = new Map<BudNode, Array<BudNode>>();
+    dependentBudNodes: Map<BudNode, Set<BudNode>> = new Map<BudNode, Set<BudNode>>();
 
     //Show common nodes only
     showCommonOnly: boolean;
@@ -186,11 +186,13 @@ export class BudNodeDots {
         // Ex: For a database/domain you get one level of upstream laterals and
         // then for each node it is downstream.
 
-        var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, direction);
+        var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, this.direction);
 
         var upstreamlaterals: boolean = (this.direction == BudNodeDots.DIRECTION_UP && isActiveNode);
-        ?? change this - study for each lateralNodes.forEach(function (lateralNode: BudNode) {
+     
+            for(var i:number=0; i<lateralNodes.length;i++){
 
+            var    lateralNode:BudNode = lateralNodes[i];
             // use displayForNonActiveNode to determine whether to build lateral
             // nodes or not for non-active nodes
             if ((isActiveNode || lateralNode.isDisplayForNonActiveNode())
@@ -199,17 +201,18 @@ export class BudNodeDots {
                 this.buildLateralNode(reqBudNodeForLaterals, lateralNode, upstreamlaterals);
                 this.populateDetailedDependency(lateralNode, false);
             }
-        });
+        }
     }
 
     private generateGraphForActiveNodes() {
         var reqNode: BudNode;
-        for (BudNode currentactivenode : activeBudNodes) {
+        for (var i:number=0; i<this.activeBudNodes.length; i++) {
+            var currentactivenode:BudNode = this.activeBudNodes[i]; 
             if (currentactivenode != null) {
                 this.activeBudNode = currentactivenode;
                 //Create a empty hash set for each active node to store all the up/downstream nodes
 
-                this.dependentBudNodes.put(currentactivenode, new HashSet<BudNode>());
+                this.dependentBudNodes.set(currentactivenode, new Set<BudNode>());
                 reqNode = currentactivenode;
                 // Build graphically the active node
                 this.graph.buildNode(this.isDetailed, reqNode);
@@ -277,8 +280,9 @@ export class BudNodeDots {
 	 * If child node is requested, both parent & child are highlighted
 	 */
     protected highlightActiveNodes() {
-        for (BudNode activeBudNode : activeBudNodes) {
-            var srcNodeCluster: Cluster = graph.findClusterByLabel(activeBudNode.getName());
+        for (var i=0; i< this.activeBudNodes.length;i++) {
+            var activeBudNode:BudNode = this.activeBudNodes[i];
+            var srcNodeCluster: Cluster = this.graph.findClusterByLabel(activeBudNode.getName());
             // highlight text; finds if requested node is of high level;
             //returns null if a child node requested
             if (srcNodeCluster != null) {
@@ -291,11 +295,12 @@ export class BudNodeDots {
 
 
     protected highlightCommonNodes() {
-        for (BudNode b : commonBudNodes) {
+        for (var i:number=0; i<this.commonBudNodes.length;i++) {
             //Rank condition is to bypass the domain, db, db user nodes from showing as common.
             //TODO should this condition be removed?
+            var b:BudNode = this.commonBudNodes[i];
             if (b.isHighlight()) {
-                var srcNodeCluster: Cluster = graph.findClusterByLabel(b.getName());
+                var srcNodeCluster: Cluster = this.graph.findClusterByLabel(b.getName());
                 if (srcNodeCluster != null) {
                     srcNodeCluster.setColorToHighlightCommonNode();
                 }
@@ -311,20 +316,30 @@ export class BudNodeDots {
         return this.isDetailed || updownBudNode.isTopIndependentLevel();
     }
 
-    protected populateCommonNodes(Iterator<Entry<BudNode, Set<BudNode>>>itr) {
-        Set < BudNode > commonNodesSet = null;
-        while (itr.hasNext()) {
-            Set < BudNode > sdependentNodes =itr.next().getValue();
+    protected populateCommonNodes( dependentBudNodes: Map<BudNode, Set<BudNode>> ) {
+        var commonNodesSet:Set<BudNode> = null;
+                var iter: IterableIterator<BudNode> = dependentBudNodes.keys();
+        for (var type: IteratorResult<BudNode> = iter.next(); !type.done; type = iter.next()) {
+
+        //while (itr.hasNext()) {
+            var sdependentNodes:Set < BudNode > = dependentBudNodes.get(type.value);
             if (commonNodesSet == null) {
                 commonNodesSet = sdependentNodes;
             }
             //This method retains only those nodes that are also in the passed set (intersection)
-            commonNodesSet.retainAll(sdependentNodes);
+            commonNodesSet = new Set([...commonNodesSet].filter(x=>sdependentNodes.has(x)));
+            
+            
         }
         if (commonNodesSet != null) {
-            this.commonBudNodes.addAll(commonNodesSet);
+            //Needs to do a union instead of push; convert array into set 
+            var tempset:Set<BudNode> = new Set(this.commonBudNodes);
+            commonNodesSet.forEach(element => tempset.add(element));
+             this.commonBudNodes = Array.from( tempset);
+            
         }
     }
+
 
 	/**
 	 * This method is the main recursive method that traverses the graph.  
@@ -372,7 +387,8 @@ export class BudNodeDots {
 
         var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction);
 
-        for (BudNode updownBudNode : updownBudNodes) {
+        for (var i:number=0;i<updownBudNodes.length;i++) {
+            var updownBudNode:BudNode = updownBudNodes[i];
             this.buildDestNode(updownBudNode);
             this.buildEdge(reqSrcBudNode, updownBudNode);
             this.populateDetailedDependency(updownBudNode, false);
@@ -381,10 +397,11 @@ export class BudNodeDots {
 
     protected processChildNodes(reqBudNode: BudNode, isActiveNode: boolean) {
         var reqBudNodeChildren: Array<BudNode> = reqBudNode.getChildren();
-        for (BudNode reqBudNodeChild : reqBudNodeChildren) {
+        for (var i:number=0; i<reqBudNodeChildren.length;i++) {
+            var reqBudNodeChild:BudNode = reqBudNodeChildren[i];
             //In the case of highlevel view, we do not need individual child nodes as we use selfnode
             if (this.isDetailed)
-                graph.buildNode(this.isDetailed, reqBudNodeChild);
+                this.graph.buildNode(this.isDetailed, reqBudNodeChild);
             // build laterals for each child node. currently applicable for
             // db users. same method outside will do it for parent node
             this.findAndBuildLateralNodes(isActiveNode, reqBudNodeChild);
@@ -399,7 +416,7 @@ export class BudNodeDots {
 	 */
     protected processCommonNodes() {
         //Identify common nodes using set
-        this.populateCommonNodes(this.dependentBudNodes.entrySet().iterator());
+        this.populateCommonNodes(this.dependentBudNodes);
         //Now loop through common nodes, get its cluster from graph and set color to highlight.
         this.highlightCommonNodes();
         //Remove nodes that are not common if show common flag is true 
@@ -409,14 +426,14 @@ export class BudNodeDots {
     protected processUpStreamLaterals(reqBudNodeForLaterals: BudNode, lateralNode: BudNode, srcNodeCluster: Cluster) {
         srcNodeCluster.setStyle("");
         //This is to distinguish between domain vs dbuser to show the UI containment
-        if (reqBudNodeForLaterals.getConfigProperty("containment").equalsIgnoreCase("Y"))
+        if (reqBudNodeForLaterals.getConfigProperty("containment")=="Y")
             //for domain, do not create edge but only add laternal nodes under domain
-            srcNodeCluster.findOrAddCluster(false, lateralNode, graph.getClusterSize());
+            srcNodeCluster.findOrAddCluster(false, lateralNode, this.graph.getClusterSize());
         else {
             //this is for DBuser, create lateral nodes at highest level so that db node is outside
-            graph.findOrAddCluster(false, lateralNode, graph.getClusterSize());
+            this.graph.findOrAddCluster(false, lateralNode, this.graph.getClusterSize());
             //show the edge to the db user node 
-            graph.buildEdge(isDetailed, reqBudNodeForLaterals, lateralNode, BudNodeDots.DIRECTION_UP);
+            this.graph.buildEdge(this.isDetailed, reqBudNodeForLaterals, lateralNode, BudNodeDots.DIRECTION_UP);
             //make the hidden node visible			
             this.unhideInvisibleSelfNode(reqBudNodeForLaterals, srcNodeCluster);
         }
@@ -445,8 +462,8 @@ export class BudNodeDots {
         //if show common flag is true
         if (this.showCommonOnly) {
             //Adding the passed nodes so that they are retained even if they are not common
-            this.commonBudNodes.addAll(this.activeBudNodes);
-            graph.removeNonActiveNodes(this.commonBudNodes);
+            this.commonBudNodes = this.commonBudNodes.concat(this.activeBudNodes);
+            this.graph.removeNonActiveNodes(this.commonBudNodes);
         }
     }
 
@@ -459,4 +476,16 @@ export class BudNodeDots {
         return hiddenNode;
     }
 
+    protected intersection(setA:Set<BudNode>, setB:Set<BudNode>):Set<BudNode>{ 
+    var intersection = new Set<BudNode>();
+    for (var elem of setB) {
+        if (setA.has(elem)) {
+            intersection.add(elem);
+        }
+    }
+    return intersection;
+    }
+
 }
+
+
