@@ -4,8 +4,11 @@ import { BudNodes } from "../BudNodes";
 import { VizNode } from "./VizNode";
 import { Cluster } from "./Cluster";
 import { Edge } from "./Edge";
+import {VizdotsConstants} from "../../VizdotsConstants"
+
+//var VizdotsConstants = require( "../../VizdotsConstants")
 var loadedData = require("../../LoadedData");
-var vizdotsConstants = require("../../VizdotsConstants");
+
 
 /**
  * DOT/GraphViz Graph
@@ -35,10 +38,17 @@ export class Graph extends Cluster {
 	 */
 	public buildEdge(isDetailed: boolean, updownNode1: BudNode, updownNode2: BudNode, direction: number): Edge {
 		var edge: Edge;
-		if (direction == vizdotsConstants.DIRECTION_DOWN)
+		//console.log(" vizdotsConstants.DIRECTION_DOWN is ",  VizdotsConstants.DIRECTION_DOWN)
+		
+		if (direction == VizdotsConstants.DIRECTION_DOWN) {
+			//console.log ("Building edge direction down",updownNode1.getName(),updownNode2.getName());
+
 			edge = this.buildEdgeByDirection(isDetailed, updownNode1, updownNode2);
-		else
+		}
+		else {
+			//console.log ("Building edge direction up",updownNode2.getName(),updownNode1.getName());
 			edge = this.buildEdgeByDirection(isDetailed, updownNode2, updownNode1);
+		}
 		this.addEdgeIfNotFound(edge);
 		return edge;
 	}
@@ -185,17 +195,17 @@ export class Graph extends Cluster {
 	 */
 
 	public toString(): string {
-		var result: String = new String("digraph G {\n");
-		result.concat("compound=true\n");
-		result.concat("nodesep=.1\n");
-		this.clusters.forEach(function (cluster: Cluster) { result.concat(cluster.toString()); });
+		var result: string = "digraph G {\n";
+		result += "compound=true\n";
+		result += "nodesep=.1\n";
+		this.clusters.forEach(function (cluster: Cluster) { result += cluster.toString(); });
 
-		this.edges.forEach(function (edge: Edge) { result.concat(edge.toString()); });
+		this.edges.forEach(function (edge: Edge) { result += edge.toString(); });
 
 
-		result.concat("rankdir=LR\n");
-		result.concat("}\n");
-		return result.toString();
+		result += "rankdir=LR\n";
+		result += "}\n";
+		return result;
 	}
 
 }

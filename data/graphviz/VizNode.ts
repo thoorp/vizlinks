@@ -95,7 +95,7 @@ export class VizNode extends Base {
 
 
 	public getLabelAndIcon(): string {
-		return (this.label == null) ? name : this.label + (this.iconFont == null ? "" : " " + this.iconFont);
+		return (this.label == null) ? this.name : this.label + (this.iconFont == null ? "" : " " + this.iconFont);
 	}
 
 

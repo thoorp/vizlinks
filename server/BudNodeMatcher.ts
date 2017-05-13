@@ -5,10 +5,9 @@ import { Links } from "../data/Links";
 import { Cluster } from "../data/graphviz/Cluster";
 import { Graph } from "../data/graphviz/Graph";
 import { VizNode } from "../data/graphviz/VizNode";
-
+import {VizdotsConstants} from "../VizdotsConstants"
 
 var loadedData = require("../LoadedData");
-var vizdotsConstants = require("../VizdotsConstants");
 
 
 export class BudNodeMatcher {
@@ -34,7 +33,7 @@ export class BudNodeMatcher {
 
     //Show common nodes only
     showCommonOnly: boolean=false;
-    public static DIRECTION_UP: number = vizdotsConstants.DIRECTION_UP;
+    public static DIRECTION_UP: number = 1;
     public static DIRECTION_DOWN: number = 2;
 
 
@@ -123,12 +122,12 @@ export class BudNodeMatcher {
         this.requestedMaxLevels = maxLevelsParam;
         this.showCommonOnly = showCommonOnly;
 
-        //Get corresponding BudNode for all the activeNodes requested.
+        //Get corresponding BudNode for all the activeNodes requested.s
         this.addActiveNodes(reqNode, activeNodeNames);
 
         //Generate graph for each activeNode
         this.generateGraphForActiveNodes();
-
+        //console.log("After generate graph",this.graph);
         //To highlight the passed active nodes (the heading/text)		
         this.highlightActiveNodes();
 
@@ -150,6 +149,8 @@ export class BudNodeMatcher {
     buildLateralNode(reqBudNodeForLaterals: BudNode, lateralNode: BudNode, upstreamlaterals: boolean) {
         // to be able to capture both the destBudNode and it's parent (if
         // exists) inside the srcBudNode
+        //console.log("Building Lateral node",lateralNode.getName());
+
         var destParentBudNode: BudNode = lateralNode.getParent();
         var srcParentBudNode: BudNode = reqBudNodeForLaterals.getParent();
 
@@ -191,7 +192,8 @@ export class BudNodeMatcher {
         var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, this.direction);
 
         var upstreamlaterals: boolean = (this.direction == BudNodeMatcher.DIRECTION_UP && isActiveNode);
-     
+          //  console.log ("findAndBuildLateralNodes",reqBudNodeForLaterals.getName(),lateralNodes.length);
+
             for(var i:number=0; i<lateralNodes.length;i++){
 
             var    lateralNode:BudNode = lateralNodes[i];
@@ -220,9 +222,12 @@ export class BudNodeMatcher {
                 this.graph.buildNode(this.isDetailed, reqNode);
                 // Traverse the tree down
                 this.direction = BudNodeMatcher.DIRECTION_DOWN;
+                console.log("Direction Down",reqNode.getName());
+
                 this.populateDetailedDependency(reqNode, true);
                 // Traverse the tree up
                 this.direction = BudNodeMatcher.DIRECTION_UP;
+                console.log("Direction up",reqNode.getName());
                 this.populateDetailedDependency(reqNode, true);
             }
         }
@@ -358,7 +363,7 @@ export class BudNodeMatcher {
         if (reqBudNode.isDependentLevel()) {
             this.findAndBuildLateralNodes(isActiveNode, reqBudNode.getParent());
         }
-
+        //console.log("Levels current max",this.currentLevel,this.requestedMaxLevels);
         if (this.currentLevel >= this.requestedMaxLevels)
             return; // return without processing if the required number of
         // levels is met.
@@ -388,9 +393,10 @@ export class BudNodeMatcher {
     private processBudNode(reqSrcBudNode: BudNode) {
 
         var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction);
-
+        console.log("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(),this.direction);
         for (var i:number=0;i<updownBudNodes.length;i++) {
             var updownBudNode:BudNode = updownBudNodes[i];
+            console.log("updownBudNode",updownBudNode.getName());
             this.buildDestNode(updownBudNode);
             this.buildEdge(reqSrcBudNode, updownBudNode);
             this.populateDetailedDependency(updownBudNode, false);
@@ -407,6 +413,7 @@ export class BudNodeMatcher {
             // build laterals for each child node. currently applicable for
             // db users. same method outside will do it for parent node
             this.findAndBuildLateralNodes(isActiveNode, reqBudNodeChild);
+            //console.log("ProcessChildNodes",reqBudNodeChild.getName());
             this.processBudNode(reqBudNodeChild);
         }
     }
@@ -428,7 +435,8 @@ export class BudNodeMatcher {
     protected processUpStreamLaterals(reqBudNodeForLaterals: BudNode, lateralNode: BudNode, srcNodeCluster: Cluster) {
         srcNodeCluster.setStyle("");
         //This is to distinguish between domain vs dbuser to show the UI containment
-        if (reqBudNodeForLaterals.getConfigProperty("containment")=="Y")
+        
+        if (loadedData.configData[reqBudNodeForLaterals.getType()].containment=="Y")
             //for domain, do not create edge but only add laternal nodes under domain
             srcNodeCluster.findOrAddCluster(false, lateralNode, this.graph.getClusterSize());
         else {

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es6"
-    
-   },
-     "exclude": [
-        "node_modules","typings","data/tests"]
+ },
+   "exclude": [
+    "node_modules/*" ]
+     
   }

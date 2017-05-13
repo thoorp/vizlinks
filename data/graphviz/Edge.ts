@@ -68,42 +68,48 @@ export class Edge {
 	}
 	
 	public  generateStyleBox():string {
-		var styling:String = new String("[");
-		styling.concat("style=\"dotted\",");
-		this.styleDir(styling);
-		this.styleTargetCluster(styling);
-		this.styleSourceCluster(styling);
-		styling.concat("edgeURL=\"#\"]");
-		return styling.toString();
+		var styling:string = "[";
+		styling +="style=\"dotted\",";
+		styling += this.styleDir();
+		styling += this.styleTargetCluster();
+		styling += this.styleSourceCluster();
+		styling+="edgeURL=\"#\"]";
+		return styling;
 	}
 
 
-	public  styleDir( styling:String) {
+	public  styleDir( ):string {
+		var result  = "";
 		if (this.dir != null) {
-			styling.concat("dir=\"");
-			styling.concat(this.dir);
-			styling.concat("\",");
+			result+="dir=\"";
+			result+=this.dir;
+			result+="\",";
 		}
+		return result;
 	}
 
-	public  styleSourceCluster( styling:String) {
+	public  styleSourceCluster( ):string {
 		// if srcNode is a self node, show the connection originate at cluster level		
+		var styling:string ="";
 		if(this.isSelfNode(this.srcNode)){
-			styling.concat("ltail=\"");
-			styling.concat(this.srcNode.getCluster().getName());
-			styling.concat("\",");
+			styling+="ltail=\"";
+			styling+=this.srcNode.getCluster().getName();
+			styling+="\",";
 		}
+		return styling;
 	}
 
-	public  styleTargetCluster( styling:String) {
+	public  styleTargetCluster():string {
 		// if tgtNode is a self node, show the connection originate at cluster level
+		var styling:string="";
 		if(this.isSelfNode(this.tgtNode)){
-			styling.concat("arrowhead=\"vee\",");
+			styling +="arrowhead=\"vee\",";
 			
-			styling.concat("lhead=\"");
-			styling.concat(this.tgtNode.getCluster().getName());
-			styling.concat("\",");
+			styling+="lhead=\"";
+			styling+=this.tgtNode.getCluster().getName();
+			styling+="\",";
 		}
+		return styling;
 	}
 
 	public  isSelfNode( node:VizNode):boolean {

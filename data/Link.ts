@@ -9,6 +9,7 @@ import { BudNode } from "./BudNode";
 	 constructor( srcNode:BudNode,  destNode:BudNode) {
 		this.srcNode = srcNode;
 		this.destNode = destNode;
+		//console.log("Link created src dest",srcNode.getName(),destNode.getName())
 	}
 
 	public  toString():string {

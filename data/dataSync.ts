@@ -58,7 +58,7 @@ function processFile(err, data) {
                     // console.log(loadedData.configData);
 
                     if (headers[col].startsWith("*")) {
-                        console.log("data element", dataArray[i][col]);
+                      //  console.log("data element", dataArray[i][col]);
                         var node = loadedData.budNodesInstance.getOrAddNode(headers[col].substring(1), dataArray[i][col],loadedData.configData);
                        // console.log(node);
                         if (currentNode != null) {

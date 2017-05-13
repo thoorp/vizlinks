@@ -78,10 +78,11 @@ export class BudNode {
 
     public equals(param: BudNode): boolean {
 
-        if (param.name=== this.name && param.type=== this.type)
+        //console.log("Equals called ",this.name,param.name, this.type,param.type,param.name== this.name && param.type== this.type);
+		if (param.name== this.name && param.type== this.type)
             return true;
         else
-            return true;
+            return false;
     }
 
    public  getLabel():string {
@@ -101,7 +102,8 @@ export class BudNode {
 	}
 
 	public  getConfigProperty(property:string):string {
-		var value = this.configProperties.get(property);
+		
+		var value = loadedData.configData[this.type][property];//this.configProperties.get(property);
 		if(value==null) value ="";
 		return value;
 	}

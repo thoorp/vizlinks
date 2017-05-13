@@ -219,58 +219,59 @@ export class Cluster extends Base {
 	}
 
 
-	public toString(): string {
-		var result: String = new String("subgraph ");
-
-		result.concat(name);
-		result.concat(" {\n");
+	public 	toString(): string {
+		var result: string = "subgraph ";
+		result += this.name;
+		result +=" {\n";
+		
 		if (this.url != null) {
-			result.concat("URL=\"");
-			result.concat(this.url);
-			result.concat("\"\n");
+			result +="URL=\""
+			result+=this.url;
+			result+="\"\n";
 		}
-		result.concat("style=\"");
+		
+		result+="style=\"";
 		if (this.style != null) {
-			result.concat(this.style);
+			result+=this.style;
 		} else
-			result.concat("filled");
-		result.concat("\"\n");
+			result+="filled";
+		result+="\"\n";
 
-		result.concat("color=\"");
+		result+="color=\"";
 		if (this.color != null)
-			result.concat(this.color);
+			result+=this.color;
 		else
-			result.concat("#F2F2F2");
-		result.concat("\"\n");
+			result+="#F2F2F2";
+		result+="\"\n";
 
 		if (this.fontSize != null)
-			result.concat("fontsize=\"" + this.fontSize + "\"\n");
+			result+="fontsize=\"" + this.fontSize + "\"\n";
 
 		if (this.highlight)
-			result.concat("fontcolor=\"" + Base.COLOR_HIGHLIGHT + "\"\n");
+			result+="fontcolor=\"" + Base.COLOR_HIGHLIGHT + "\"\n";
 		else
-			result.concat("fontcolor=\"" + this.fontColor + "\"\n");
-		result.concat("fontname=\"" + this.fontName + "\"\n");
+			result+="fontcolor=\"" + this.fontColor + "\"\n";
+		result+="fontname=\"" + this.fontName + "\"\n";
 		if (this.nodes != null) {
 			//Collections.sort(nodes);
 			this.nodes.forEach(function (node: VizNode) {
-				result.concat(node.toString());
+				result+=node.toString();
 			})
 		}
-		result.concat("label = \"");
+		result+="label = \"";
 		if (this.label != null)
-			result.concat(this.getIconAndLabel());
+			result+=this.getIconAndLabel();
 
-		result.concat("\"\n\n");
+		result+="\"\n\n";
 
 		if (this.clusters != null)
 			this.clusters.forEach(function (cluster: Cluster) {
 				if (cluster != null)
-					result.concat(cluster.toString());
+					result+=cluster.toString();
 			})
 
 
-		result.concat(" }\n\n");
-		return result.toString();
+		result+=" }\n\n";
+		return result;
 	}
 }
