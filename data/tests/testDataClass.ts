@@ -1,17 +1,24 @@
 import { should } from 'chai';
 import { expect } from 'chai';
 
+import * as Promise from 'bluebird';
 //import 'mocha';
 import { BudNode } from "../BudNode";
 import { Link } from "../Link";
 import { BudNodes } from "../BudNodes";
 import { Links } from "../Links";
+import { BudNodeMatcher } from "../../server/BudNodeMatcher";
+import { loadData } from "../../app"
+var chaiAsPromised = require("chai-as-promised");
+//chai.use(chaiAsPromised);
 
-var data = require('../data/data');
+var loadedData = require("../../LoadedData");
+
+var data = require('../data');
 
 var configstr = '{"app": {"level": "TOP_INDEPENDENT_LEVEL", "rank": 1}, "function": {"level": "DEPENDENT_LEVEL",    "rank": 2}'
     + ',  "api": { "level": "TOP_INDEPENDENT_LEVEL", "rank": 1}'
-    +', "domain": {"level": "TOP_INDEPENDENT_LEVEL",  "rank": 2}}';
+    + ', "domain": {"level": "TOP_INDEPENDENT_LEVEL",  "rank": 2}}';
 
 var configData = JSON.parse(configstr);
 
@@ -21,7 +28,7 @@ let fnode2: BudNode = new BudNode("getCustomerDetails2", "function", configData)
 let fnode3: BudNode = new BudNode("getCustomerDetails3", "function", configData);
 bnode.addChild(fnode);
 
-  let domainnode:BudNode=new BudNode("Tomcat","domain",configData);
+let domainnode: BudNode = new BudNode("Tomcat", "domain", configData);
 
 let allnodes = new BudNodes();
 allnodes.addNode("app", bnode);
@@ -73,15 +80,39 @@ function LinksTest() {
         expect(links.getDownStreamBudNodes(fnode2)[0].getName()).to.equal("AccountsApi");
         expect(links.getDownstreamLateralBudNodes(fnode).length).to.equal(0);
 
-        let l3:Link = new Link(fnode, domainnode);
+        let l3: Link = new Link(fnode, domainnode);
         links.addLink(l3);
-  
+
         expect(links.getDownstreamLateralBudNodes(fnode)[0].getName()).to.equal("Tomcat");
     });
 }
 
-function DataTest(){
-    //data.processFile(err,data);    
+
+
+function DataTest() {
+
+    it('loadData test ', function () {
+        return loadData().then(() => { expect(loadedData.linksInstance.getLinks().length).to.greaterThan(0); });
+
+    });
+
+}
+
+function BudNodeMatcherTest() {
+    //Test bud Node - Mother of all tests
+    var matcher: BudNodeMatcher = new BudNodeMatcher();
+   // matcher.
+    matcher.buildGraph("accounts-api", false, 0, null, false);
+    
+    
+    it('Active bud nodes test ', function () {
+        expect(matcher.activeBudNodes.length).to.equals(1);
+    });
+    // it('buildgraph Test', function () {
+    //     expect(matcher.getGraph().getClusterSize()).to.greaterThan(0);
+    // })
+
+
 }
 
 describe('Dataclasses', function () {
@@ -89,6 +120,7 @@ describe('Dataclasses', function () {
     describe('BudNodes', BudNodesTest);
     describe('Link', LinkTest);
     describe('Links', LinksTest);
-    describe('Data',DataTest);
+    describe('Data', DataTest);
+    describe('BudNodeMatcher', BudNodeMatcherTest)
 
 });

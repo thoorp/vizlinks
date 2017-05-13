@@ -8,17 +8,17 @@ import { VizNode } from "../data/graphviz/VizNode";
 
 
 var loadedData = require("../LoadedData");
-var vizdotsConstants = require("../VizdtsConstants");
+var vizdotsConstants = require("../VizdotsConstants");
 
 
-export class BudNodeDots {
+export class BudNodeMatcher {
 
 
     graph: Graph = new Graph();
     isDetailed: boolean = false;
     requestedMaxLevels: number; //Stores the number of levels up/down stream that we should navigate from active node
-    calcMaxLevels: number;
-    direction: number; //Keeps track of current direction
+    calcMaxLevels: number=0;
+    direction: number=0; //Keeps track of current direction
     currentLevel: number = 0; // transient variable that always track the level in which the current processing is happening
     //BudNode toNode = null; //if the graph is requested between 2 nodes, this stores the destination node to which graph should be drawn
     //activeNodes are the ones that will be processed for both up&downstream. Earlier it was single node, but now multiple
@@ -33,7 +33,7 @@ export class BudNodeDots {
     dependentBudNodes: Map<BudNode, Set<BudNode>> = new Map<BudNode, Set<BudNode>>();
 
     //Show common nodes only
-    showCommonOnly: boolean;
+    showCommonOnly: boolean=false;
     public static DIRECTION_UP: number = vizdotsConstants.DIRECTION_UP;
     public static DIRECTION_DOWN: number = 2;
 
@@ -114,8 +114,10 @@ export class BudNodeDots {
     public buildGraph(reqNodeName: string, isDetailed: boolean, maxLevelsParam: number, activeNodeNames: Array<string>, showCommonOnly: boolean) {
         var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(reqNodeName);
         if (reqNode == null)  //current node invalid, stop proessing
-            return;
-
+        {       
+                console.log("Cannot find passed node", reqNodeName);
+                return;
+        }
         //Sets detailed graph flag based on what is passed and if implicit decision made to show detailed
         this.isDetailed = isDetailed;
         this.requestedMaxLevels = maxLevelsParam;
@@ -188,7 +190,7 @@ export class BudNodeDots {
 
         var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, this.direction);
 
-        var upstreamlaterals: boolean = (this.direction == BudNodeDots.DIRECTION_UP && isActiveNode);
+        var upstreamlaterals: boolean = (this.direction == BudNodeMatcher.DIRECTION_UP && isActiveNode);
      
             for(var i:number=0; i<lateralNodes.length;i++){
 
@@ -217,10 +219,10 @@ export class BudNodeDots {
                 // Build graphically the active node
                 this.graph.buildNode(this.isDetailed, reqNode);
                 // Traverse the tree down
-                this.direction = BudNodeDots.DIRECTION_DOWN;
+                this.direction = BudNodeMatcher.DIRECTION_DOWN;
                 this.populateDetailedDependency(reqNode, true);
                 // Traverse the tree up
-                this.direction = BudNodeDots.DIRECTION_UP;
+                this.direction = BudNodeMatcher.DIRECTION_UP;
                 this.populateDetailedDependency(reqNode, true);
             }
         }
@@ -433,7 +435,7 @@ export class BudNodeDots {
             //this is for DBuser, create lateral nodes at highest level so that db node is outside
             this.graph.findOrAddCluster(false, lateralNode, this.graph.getClusterSize());
             //show the edge to the db user node 
-            this.graph.buildEdge(this.isDetailed, reqBudNodeForLaterals, lateralNode, BudNodeDots.DIRECTION_UP);
+            this.graph.buildEdge(this.isDetailed, reqBudNodeForLaterals, lateralNode, BudNodeMatcher.DIRECTION_UP);
             //make the hidden node visible			
             this.unhideInvisibleSelfNode(reqBudNodeForLaterals, srcNodeCluster);
         }

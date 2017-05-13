@@ -9,7 +9,9 @@ var express = require('express')
  // , routes = require('./routes/index')
   , path = require('path');
 //
-import  * as Promise from 'bluebird';
+import {BudNode} from "./data/BudNode";
+import * as Promise from 'bluebird';
+import { BudNodeMatcher } from "./server/BudNodeMatcher";
 //var Promise = require('bluebird');
 var fs:any = Promise.promisifyAll(require('fs'));
 var app = express();
@@ -29,14 +31,15 @@ Promise.config({
 });
 
 
-function loadData() {
+export function loadData() {
 
-
+return new Promise((resolve,reject)=> {
   //Load config files
   data.readConfigFiles()
     .then(() => { console.log("about to call read data",loadedData.configData); return data.readData() })
-    .then(() => { console.log("Read dir completed - Links",loadedData.linksInstance);
-    console.log("Read complete - Nodes",  loadedData.budNodesInstance)  });
+    .then(() => { console.log("step 2"); return  resolve();})
+    // .then(() => { console.log("Read dir completed - Links");
+    // console.log("Read complete - Nodes")  });
 //     .then(()=>{
 //         http.createServer(app).listen(app.get('port'), function(){
 //   console.log('Express server listening on port ' + app.get('port'));
@@ -44,7 +47,7 @@ function loadData() {
 
  //   });
  
-
+});
 }
 
 
@@ -70,6 +73,14 @@ app.set('port', process.env.PORT || 3000);
 //app.use('/', routes);
 
 
-loadData();
+loadData().then(()=>{
+   var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName("accounts-api");
+   console.log("Success is sweat!",reqNode);
+   var matcher: BudNodeMatcher = new BudNodeMatcher();
+   // matcher.
+    matcher.buildGraph("accounts-api", false, 0, null, false);
+    console.log(" Cluster sizes",matcher.getGraph());
+    
+   });
 
 //

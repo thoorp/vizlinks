@@ -1,8 +1,9 @@
 import { BudNode } from "../BudNode";
 import { Base } from "./Base";
 import { Cluster } from "./Cluster";
+//import { LoadedData } from "../../LoadedData";
 
-var loadedData = require("../LoadedData");
+var loadedData = require("../../LoadedData");
 
 /**
  * DOT/GraphViz VizNode

@@ -4,8 +4,8 @@ import { BudNodes } from "../BudNodes";
 import { VizNode } from "./VizNode";
 import { Cluster } from "./Cluster";
 import { Edge } from "./Edge";
-var loadedData = require("../LoadedData");
-var vizdotsConstants = require("../../VizdtsConstants");
+var loadedData = require("../../LoadedData");
+var vizdotsConstants = require("../../VizdotsConstants");
 
 /**
  * DOT/GraphViz Graph

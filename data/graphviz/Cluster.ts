@@ -2,7 +2,7 @@ import { BudNode } from "../BudNode";
 import { Base } from "./Base";
 import { VizNode } from "./VizNode";
 
-var loadedData = require("../LoadedData");
+var loadedData = require("../../LoadedData");
 
 /**
  * DOT/GraphViz Cluster
@@ -115,9 +115,12 @@ export class Cluster extends Base {
 				if (pname == node.getName()) {
 					result = node;
 					break;
+
 				}
+
 			}
 		return result;
+
 	}
 
 	public findSelfNode(): VizNode {
@@ -125,7 +128,7 @@ export class Cluster extends Base {
 	}
 
 	/**
-	 * Utility method to add a cluster if it does not already exist
+	 * Utility method to add a cluster if it does not already exist, add
 	 * 
 	 * @param isDetailed
 	 * @param reqBudNode
