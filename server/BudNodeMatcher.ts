@@ -5,10 +5,14 @@ import { Links } from "../data/Links";
 import { Cluster } from "../data/graphviz/Cluster";
 import { Graph } from "../data/graphviz/Graph";
 import { VizNode } from "../data/graphviz/VizNode";
-import { VizdotsConstants } from "../VizdotsConstants"
+import { VizdotsConstants } from "../VizdotsConstants";
+import * as Logger from "bunyan";
 
 var loadedData = require("../LoadedData");
 
+
+var log = Logger.createLogger({name: 'vizLinks'});
+log.level("info");
 
 export class BudNodeMatcher {
 
@@ -114,7 +118,7 @@ export class BudNodeMatcher {
         var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(reqNodeName);
         if (reqNode == null)  //current node invalid, stop proessing
         {
-            console.log("Cannot find passed node", reqNodeName);
+             log.warn("Cannot find passed node", reqNodeName);
             return;
         }
         //Sets detailed graph flag based on what is passed and if implicit decision made to show detailed
@@ -222,12 +226,12 @@ export class BudNodeMatcher {
                 this.graph.buildNode(this.isDetailed, reqNode);
                 // Traverse the tree down
                 this.direction = BudNodeMatcher.DIRECTION_DOWN;
-                console.log("Direction Down", reqNode.getName());
+               log.info("Direction Down", reqNode.getName());
 
                 this.populateDetailedDependency(reqNode, true);
                 // Traverse the tree up
                 this.direction = BudNodeMatcher.DIRECTION_UP;
-                console.log("Direction up", reqNode.getName());
+                log.info("Direction up", reqNode.getName());
                 this.populateDetailedDependency(reqNode, true);
             }
         }
@@ -393,10 +397,10 @@ export class BudNodeMatcher {
     private processBudNode(reqSrcBudNode: BudNode) {
 
         var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction);
-        console.log("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(), this.direction);
+        log.debug("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(), this.direction);
         for (var i: number = 0; i < updownBudNodes.length; i++) {
             var updownBudNode: BudNode = updownBudNodes[i];
-            console.log("updownBudNode", updownBudNode.getName());
+            log.debug("updownBudNode", updownBudNode.getName());
             this.buildDestNode(updownBudNode);
             this.buildEdge(reqSrcBudNode, updownBudNode);
             this.populateDetailedDependency(updownBudNode, false);

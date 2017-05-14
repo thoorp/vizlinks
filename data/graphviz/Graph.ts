@@ -5,11 +5,13 @@ import { VizNode } from "./VizNode";
 import { Cluster } from "./Cluster";
 import { Edge } from "./Edge";
 import { VizdotsConstants } from "../../VizdotsConstants"
+import * as Logger from "bunyan";
 
 //var VizdotsConstants = require( "../../VizdotsConstants")
 var loadedData = require("../../LoadedData");
 
 
+var log = Logger.createLogger({name: 'vizLinks'});
 /**
  * DOT/GraphViz Graph
  */
@@ -153,7 +155,7 @@ export class Graph extends Cluster {
 		for (var i: number = 0; i < this.getClusters().length; i++) {
 			var cl: Cluster = this.getClusters()[i];
 			var found: boolean = this.searchCluster(activePath, cl);
-			console.log("RemoveNonActiveNodes",cl.getLabel(),found);
+			log.debug("RemoveNonActiveNodes",cl.getLabel(),found);
 			if (!found) {
 				
 				this.getClusters().splice(i, 1);
