@@ -4,7 +4,7 @@ import { BudNodes } from "../BudNodes";
 import { VizNode } from "./VizNode";
 import { Cluster } from "./Cluster";
 import { Edge } from "./Edge";
-import {VizdotsConstants} from "../../VizdotsConstants"
+import { VizdotsConstants } from "../../VizdotsConstants"
 
 //var VizdotsConstants = require( "../../VizdotsConstants")
 var loadedData = require("../../LoadedData");
@@ -39,7 +39,7 @@ export class Graph extends Cluster {
 	public buildEdge(isDetailed: boolean, updownNode1: BudNode, updownNode2: BudNode, direction: number): Edge {
 		var edge: Edge;
 		//console.log(" vizdotsConstants.DIRECTION_DOWN is ",  VizdotsConstants.DIRECTION_DOWN)
-		
+
 		if (direction == VizdotsConstants.DIRECTION_DOWN) {
 			//console.log ("Building edge direction down",updownNode1.getName(),updownNode2.getName());
 
@@ -153,9 +153,12 @@ export class Graph extends Cluster {
 		for (var i: number = 0; i < this.getClusters().length; i++) {
 			var cl: Cluster = this.getClusters()[i];
 			var found: boolean = this.searchCluster(activePath, cl);
+			console.log("RemoveNonActiveNodes",cl.getLabel(),found);
 			if (!found) {
+				
 				this.getClusters().splice(i, 1);
 				this.removeEdgesToClusterAndItsNodes(cl);
+				i--;//Move counter back as array has changed and next element moved to current spot
 			}
 		}
 
@@ -164,21 +167,24 @@ export class Graph extends Cluster {
 	public removeEdgesToClusterAndItsNodes(cl: Cluster) {
 		this.removeEdgeByLabel(cl.getLabel());
 		//TODO - setup BudNodes.INSTANCE and then write test case.
-		var reqNode: BudNode = loadedData.nodesInstance.getNodeByName(cl.getLabel());
+		var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(cl.getLabel());
 		if (reqNode != null) {
-			reqNode.getChildren().forEach(function (reqNodeChild: BudNode) { this.removeEdgeByLabel(reqNodeChild.getName()); });
-
+			for(var i=0; i<reqNode.getChildren().length; i++){
+				 this.removeEdgeByLabel(reqNode.getChildren()[i].getName());
+			}
 		}
 	}
 
 	public searchCluster(activePath: Array<BudNode>, cl: Cluster): boolean {
 		var found: boolean = false;
-		activePath.forEach(function (node: BudNode) {
-
-			var nodeLabel: string = this.getBudNodeTopLevelName(node);
-			if (nodeLabel != null && nodeLabel == cl.getLabel())
+		for (var i = 0; i < activePath.length; i++) {
+			var nodeLabel: string = this.getBudNodeTopLevelName(activePath[i]);
+			if (nodeLabel != null && nodeLabel == cl.getLabel()) {
 				found = true;
-		});
+				break;
+			}
+		}
+
 		return found;
 	}
 

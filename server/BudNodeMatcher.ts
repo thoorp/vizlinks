@@ -5,7 +5,7 @@ import { Links } from "../data/Links";
 import { Cluster } from "../data/graphviz/Cluster";
 import { Graph } from "../data/graphviz/Graph";
 import { VizNode } from "../data/graphviz/VizNode";
-import {VizdotsConstants} from "../VizdotsConstants"
+import { VizdotsConstants } from "../VizdotsConstants"
 
 var loadedData = require("../LoadedData");
 
@@ -16,8 +16,8 @@ export class BudNodeMatcher {
     graph: Graph = new Graph();
     isDetailed: boolean = false;
     requestedMaxLevels: number; //Stores the number of levels up/down stream that we should navigate from active node
-    calcMaxLevels: number=0;
-    direction: number=0; //Keeps track of current direction
+    calcMaxLevels: number = 0;
+    direction: number = 0; //Keeps track of current direction
     currentLevel: number = 0; // transient variable that always track the level in which the current processing is happening
     //BudNode toNode = null; //if the graph is requested between 2 nodes, this stores the destination node to which graph should be drawn
     //activeNodes are the ones that will be processed for both up&downstream. Earlier it was single node, but now multiple
@@ -32,7 +32,7 @@ export class BudNodeMatcher {
     dependentBudNodes: Map<BudNode, Set<BudNode>> = new Map<BudNode, Set<BudNode>>();
 
     //Show common nodes only
-    showCommonOnly: boolean=false;
+    showCommonOnly: boolean = false;
     public static DIRECTION_UP: number = 1;
     public static DIRECTION_DOWN: number = 2;
 
@@ -113,9 +113,9 @@ export class BudNodeMatcher {
     public buildGraph(reqNodeName: string, isDetailed: boolean, maxLevelsParam: number, activeNodeNames: Array<string>, showCommonOnly: boolean) {
         var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(reqNodeName);
         if (reqNode == null)  //current node invalid, stop proessing
-        {       
-                console.log("Cannot find passed node", reqNodeName);
-                return;
+        {
+            console.log("Cannot find passed node", reqNodeName);
+            return;
         }
         //Sets detailed graph flag based on what is passed and if implicit decision made to show detailed
         this.isDetailed = isDetailed;
@@ -192,11 +192,11 @@ export class BudNodeMatcher {
         var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, this.direction);
 
         var upstreamlaterals: boolean = (this.direction == BudNodeMatcher.DIRECTION_UP && isActiveNode);
-          //  console.log ("findAndBuildLateralNodes",reqBudNodeForLaterals.getName(),lateralNodes.length);
+        //  console.log ("findAndBuildLateralNodes",reqBudNodeForLaterals.getName(),lateralNodes.length);
 
-            for(var i:number=0; i<lateralNodes.length;i++){
+        for (var i: number = 0; i < lateralNodes.length; i++) {
 
-            var    lateralNode:BudNode = lateralNodes[i];
+            var lateralNode: BudNode = lateralNodes[i];
             // use displayForNonActiveNode to determine whether to build lateral
             // nodes or not for non-active nodes
             if ((isActiveNode || lateralNode.isDisplayForNonActiveNode())
@@ -210,8 +210,8 @@ export class BudNodeMatcher {
 
     private generateGraphForActiveNodes() {
         var reqNode: BudNode;
-        for (var i:number=0; i<this.activeBudNodes.length; i++) {
-            var currentactivenode:BudNode = this.activeBudNodes[i]; 
+        for (var i: number = 0; i < this.activeBudNodes.length; i++) {
+            var currentactivenode: BudNode = this.activeBudNodes[i];
             if (currentactivenode != null) {
                 this.activeBudNode = currentactivenode;
                 //Create a empty hash set for each active node to store all the up/downstream nodes
@@ -222,12 +222,12 @@ export class BudNodeMatcher {
                 this.graph.buildNode(this.isDetailed, reqNode);
                 // Traverse the tree down
                 this.direction = BudNodeMatcher.DIRECTION_DOWN;
-                console.log("Direction Down",reqNode.getName());
+                console.log("Direction Down", reqNode.getName());
 
                 this.populateDetailedDependency(reqNode, true);
                 // Traverse the tree up
                 this.direction = BudNodeMatcher.DIRECTION_UP;
-                console.log("Direction up",reqNode.getName());
+                console.log("Direction up", reqNode.getName());
                 this.populateDetailedDependency(reqNode, true);
             }
         }
@@ -287,8 +287,8 @@ export class BudNodeMatcher {
 	 * If child node is requested, both parent & child are highlighted
 	 */
     protected highlightActiveNodes() {
-        for (var i=0; i< this.activeBudNodes.length;i++) {
-            var activeBudNode:BudNode = this.activeBudNodes[i];
+        for (var i = 0; i < this.activeBudNodes.length; i++) {
+            var activeBudNode: BudNode = this.activeBudNodes[i];
             var srcNodeCluster: Cluster = this.graph.findClusterByLabel(activeBudNode.getName());
             // highlight text; finds if requested node is of high level;
             //returns null if a child node requested
@@ -302,10 +302,10 @@ export class BudNodeMatcher {
 
 
     protected highlightCommonNodes() {
-        for (var i:number=0; i<this.commonBudNodes.length;i++) {
+        for (var i: number = 0; i < this.commonBudNodes.length; i++) {
             //Rank condition is to bypass the domain, db, db user nodes from showing as common.
             //TODO should this condition be removed?
-            var b:BudNode = this.commonBudNodes[i];
+            var b: BudNode = this.commonBudNodes[i];
             if (b.isHighlight()) {
                 var srcNodeCluster: Cluster = this.graph.findClusterByLabel(b.getName());
                 if (srcNodeCluster != null) {
@@ -323,27 +323,27 @@ export class BudNodeMatcher {
         return this.isDetailed || updownBudNode.isTopIndependentLevel();
     }
 
-    protected populateCommonNodes( dependentBudNodes: Map<BudNode, Set<BudNode>> ) {
-        var commonNodesSet:Set<BudNode> = null;
-                var iter: IterableIterator<BudNode> = dependentBudNodes.keys();
+    protected populateCommonNodes(dependentBudNodes: Map<BudNode, Set<BudNode>>) {
+        var commonNodesSet: Set<BudNode> = null;
+        var iter: IterableIterator<BudNode> = dependentBudNodes.keys();
         for (var type: IteratorResult<BudNode> = iter.next(); !type.done; type = iter.next()) {
 
-        //while (itr.hasNext()) {
-            var sdependentNodes:Set < BudNode > = dependentBudNodes.get(type.value);
+            //while (itr.hasNext()) {
+            var sdependentNodes: Set<BudNode> = dependentBudNodes.get(type.value);
             if (commonNodesSet == null) {
                 commonNodesSet = sdependentNodes;
             }
             //This method retains only those nodes that are also in the passed set (intersection)
-            commonNodesSet = new Set([...commonNodesSet].filter(x=>sdependentNodes.has(x)));
+            commonNodesSet = new Set(Array.from(commonNodesSet).filter(x => sdependentNodes.has(x)));
             
             
         }
         if (commonNodesSet != null) {
             //Needs to do a union instead of push; convert array into set 
-            var tempset:Set<BudNode> = new Set(this.commonBudNodes);
+            var tempset: Set<BudNode> = new Set(this.commonBudNodes);
             commonNodesSet.forEach(element => tempset.add(element));
-             this.commonBudNodes = Array.from( tempset);
-            
+            this.commonBudNodes = Array.from(tempset);
+
         }
     }
 
@@ -393,10 +393,10 @@ export class BudNodeMatcher {
     private processBudNode(reqSrcBudNode: BudNode) {
 
         var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction);
-        console.log("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(),this.direction);
-        for (var i:number=0;i<updownBudNodes.length;i++) {
-            var updownBudNode:BudNode = updownBudNodes[i];
-            console.log("updownBudNode",updownBudNode.getName());
+        console.log("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(), this.direction);
+        for (var i: number = 0; i < updownBudNodes.length; i++) {
+            var updownBudNode: BudNode = updownBudNodes[i];
+            console.log("updownBudNode", updownBudNode.getName());
             this.buildDestNode(updownBudNode);
             this.buildEdge(reqSrcBudNode, updownBudNode);
             this.populateDetailedDependency(updownBudNode, false);
@@ -405,8 +405,8 @@ export class BudNodeMatcher {
 
     protected processChildNodes(reqBudNode: BudNode, isActiveNode: boolean) {
         var reqBudNodeChildren: Array<BudNode> = reqBudNode.getChildren();
-        for (var i:number=0; i<reqBudNodeChildren.length;i++) {
-            var reqBudNodeChild:BudNode = reqBudNodeChildren[i];
+        for (var i: number = 0; i < reqBudNodeChildren.length; i++) {
+            var reqBudNodeChild: BudNode = reqBudNodeChildren[i];
             //In the case of highlevel view, we do not need individual child nodes as we use selfnode
             if (this.isDetailed)
                 this.graph.buildNode(this.isDetailed, reqBudNodeChild);
@@ -435,8 +435,8 @@ export class BudNodeMatcher {
     protected processUpStreamLaterals(reqBudNodeForLaterals: BudNode, lateralNode: BudNode, srcNodeCluster: Cluster) {
         srcNodeCluster.setStyle("");
         //This is to distinguish between domain vs dbuser to show the UI containment
-        
-        if (loadedData.configData[reqBudNodeForLaterals.getType()].containment=="Y")
+
+        if (loadedData.configData[reqBudNodeForLaterals.getType()].containment == "Y")
             //for domain, do not create edge but only add laternal nodes under domain
             srcNodeCluster.findOrAddCluster(false, lateralNode, this.graph.getClusterSize());
         else {
@@ -486,14 +486,14 @@ export class BudNodeMatcher {
         return hiddenNode;
     }
 
-    protected intersection(setA:Set<BudNode>, setB:Set<BudNode>):Set<BudNode>{ 
-    var intersection = new Set<BudNode>();
-    for (var elem of setB) {
-        if (setA.has(elem)) {
-            intersection.add(elem);
+    protected intersection(setA: Set<BudNode>, setB: Set<BudNode>): Set<BudNode> {
+        var intersection = new Set<BudNode>();
+        for (var elem of setB) {
+            if (setA.has(elem)) {
+                intersection.add(elem);
+            }
         }
-    }
-    return intersection;
+        return intersection;
     }
 
 }
