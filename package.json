@@ -29,6 +29,7 @@
     "svg-pan-zoom": "github:ariutta/svg-pan-zoom",
     "ts-node": "^3.0.2",
     "typings": "^2.1.1",
+    "viz.js": "^1.7.1",
     "vue": "^2.3.3",
     "winston": "^2.3.1"
   },
