@@ -78,7 +78,8 @@ gulp.task('sketch.js', function () {
 
 gulp.task('clean-build', ['clean-dist', 'build']);
 
-gulp.task('build', ['client', 'jquery-typeahead-css', 'bootstrap-css', 'bootstrap-slider-css', 'font-awesome-css', 'vue', 'jquery', 'jquery- typeahead - js', 'bootstrap- slider', 'file- saver - js', 'svg- pan - zoom', 'screenfull', 'sketch.js']
+gulp.task('build', ['client', 'jquery-typeahead-css', 'bootstrap-css', 'bootstrap-slider-css',
+    'font-awesome-css', 'vue', 'jquery', 'jquery-typeahead-js', 'bootstrap-slider', 'file-saver-js', 'svg-pan-zoom', 'screenfull', 'sketch.js']
 );
 
 gulp.task('watch', function () {
