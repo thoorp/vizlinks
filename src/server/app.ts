@@ -4,50 +4,51 @@
  */
 
 var express = require('express')
- // , user = require('./routes/user')
+  // , user = require('./routes/user')
   , http = require('http')
- // , routes = require('./routes/index')
+  // , routes = require('./routes/index')
   , path = require('path');
 //
-import {BudNode} from "./data/BudNode";
+var serveStatic = require('serve-static');
+import { BudNode } from "./data/BudNode";
 import * as Promise from 'bluebird';
 import { BudNodeMatcher } from "./BudNodeMatcher";
 //var Promise = require('bluebird');
-var fs:any = Promise.promisifyAll(require('fs'));
+var fs: any = Promise.promisifyAll(require('fs'));
 var app = express();
 
 var data = require('./data/data');
 var loadedData = require("./LoadedData");
 
 Promise.config({
-    // Enable warnings
-    warnings: true,
-    // Enable long stack traces
-    longStackTraces: true,
-    // Enable cancellation
-    cancellation: true,
-    // Enable monitoring
-    monitoring: false
+  // Enable warnings
+  warnings: true,
+  // Enable long stack traces
+  longStackTraces: true,
+  // Enable cancellation
+  cancellation: true,
+  // Enable monitoring
+  monitoring: false
 });
 
 
 export function loadData() {
 
-return new Promise((resolve,reject)=> {
-  //Load config files
-  data.readConfigFiles()
-    .then(() => { console.log("about to call read data",loadedData.configData); return data.readData() })
-    .then(() => { console.log("step 2"); return  resolve();})
+  return new Promise((resolve, reject) => {
+    //Load config files
+    data.readConfigFiles()
+      .then(() => { console.log("about to call read data", loadedData.configData); return data.readData() })
+      .then(() => { console.log("step 2"); return resolve(); })
     // .then(() => { console.log("Read dir completed - Links");
     // console.log("Read complete - Nodes")  });
-//     .then(()=>{
-//         http.createServer(app).listen(app.get('port'), function(){
-//   console.log('Express server listening on port ' + app.get('port'));
-// });
+    //     .then(()=>{
+    //         http.createServer(app).listen(app.get('port'), function(){
+    //   console.log('Express server listening on port ' + app.get('port'));
+    // });
 
- //   });
- 
-});
+    //   });
+
+  });
 }
 
 
@@ -71,16 +72,20 @@ app.set('port', process.env.PORT || 3000);
 
 
 //app.use('/', routes);
+app.use(serveStatic('../../dist', { 'index': ['index.html'] }));
 
+app.listen(4000, function () {
+  console.log('Listening on port 4000!');
+});
 
-loadData().then(()=>{
-   var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName("accounts-api");
-   console.log("Success is sweat!",reqNode);
-   var matcher: BudNodeMatcher = new BudNodeMatcher();
-   // matcher.
-    matcher.buildGraph("accounts-api", false, 0, null, false);
-    console.log(" Cluster sizes",matcher.getGraph());
-    
-   });
+loadData().then(() => {
+  var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName("accounts-api");
+  //console.log("Success is sweat!", reqNode);
+  var matcher: BudNodeMatcher = new BudNodeMatcher();
+  // matcher.
+  matcher.buildGraph("accounts-api", false, 0, null, false);
+  // console.log(" Cluster sizes", matcher.getGraph());
+
+});
 
 //
