@@ -23,6 +23,17 @@ gulp.task('bootstrap-css', function () {
         .pipe(gulp.dest('dist/css'))
 });
 
+gulp.task('bootstrap-slider-css', function () {
+    return gulp.src('node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css')
+        .pipe(gulp.dest('dist/css'))
+});
+
+gulp.task('font-awesome-css', function () {
+    return gulp.src('node_modules/font-awesome/css/font-awesome.min.css')
+        .pipe(gulp.dest('dist/css'))
+});
+
+
 
 //move frontend js
 gulp.task('vue', function () {
@@ -67,7 +78,7 @@ gulp.task('sketch.js', function () {
 
 gulp.task('clean-build', ['clean-dist', 'build']);
 
-gulp.task('build', ['client', 'jquery-typeahead-css', 'bootstrap-css', 'vue', 'jquery', 'jquery-typeahead-js', 'bootstrap-slider', 'file-saver-js', 'svg-pan-zoom', 'screenfull', 'sketch.js']
+gulp.task('build', ['client', 'jquery-typeahead-css', 'bootstrap-css', 'bootstrap-slider-css', 'font-awesome-css', 'vue', 'jquery', 'jquery- typeahead - js', 'bootstrap- slider', 'file- saver - js', 'svg- pan - zoom', 'screenfull', 'sketch.js']
 );
 
 gulp.task('watch', function () {
