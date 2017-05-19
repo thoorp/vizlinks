@@ -7,7 +7,7 @@ import { BudNode } from "../BudNode";
 import { Link } from "../Link";
 import { BudNodes } from "../BudNodes";
 import { Links } from "../Links";
-import { BudNodeMatcher } from "../../server/BudNodeMatcher";
+import { BudNodeMatcher } from "../../BudNodeMatcher";
 import { loadData } from "../../app"
 var chaiAsPromised = require("chai-as-promised");
 //chai.use(chaiAsPromised);

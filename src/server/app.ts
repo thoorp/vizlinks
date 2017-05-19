@@ -11,7 +11,7 @@ var express = require('express')
 //
 import {BudNode} from "./data/BudNode";
 import * as Promise from 'bluebird';
-import { BudNodeMatcher } from "./server/BudNodeMatcher";
+import { BudNodeMatcher } from "./BudNodeMatcher";
 //var Promise = require('bluebird');
 var fs:any = Promise.promisifyAll(require('fs'));
 var app = express();

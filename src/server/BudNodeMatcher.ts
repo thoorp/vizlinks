@@ -1,14 +1,14 @@
-import { BudNode } from "../data/BudNode";
-import { Link } from "../data/Link";
-import { BudNodes } from "../data/BudNodes";
-import { Links } from "../data/Links";
-import { Cluster } from "../data/graphviz/Cluster";
-import { Graph } from "../data/graphviz/Graph";
-import { VizNode } from "../data/graphviz/VizNode";
-import { VizdotsConstants } from "../VizdotsConstants";
+import { BudNode } from "./data/BudNode";
+import { Link } from "./data/Link";
+import { BudNodes } from "./data/BudNodes";
+import { Links } from "./data/Links";
+import { Cluster } from "./data/graphviz/Cluster";
+import { Graph } from "./data/graphviz/Graph";
+import { VizNode } from "./data/graphviz/VizNode";
+import { VizdotsConstants } from "./VizdotsConstants";
 import * as Logger from "bunyan";
 
-var loadedData = require("../LoadedData");
+var loadedData = require("./LoadedData");
 
 
 var log = Logger.createLogger({name: 'vizLinks'});

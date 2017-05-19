@@ -2,6 +2,7 @@
 .vscode/*
 obj/*
 dist
+src/server/**/*.ts
 node_modules/*
 typings/*
 /build/
