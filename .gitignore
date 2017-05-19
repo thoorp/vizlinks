@@ -2,7 +2,7 @@
 .vscode/*
 obj/*
 dist
-src/server/**/*.ts
+src/server/**/*.js
 node_modules/*
 typings/*
 /build/
