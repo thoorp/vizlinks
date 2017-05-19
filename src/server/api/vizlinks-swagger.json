@@ -1,0 +1,153 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "vizlinks"
+  },
+  "basePath": "",
+  "paths": {
+    "/vizdotsapi/api/nodes": {},
+    "/vizdotsapi/api/nodes/types": {
+      "get": {
+        "operationId": "/types",
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/vizdotsapi/api/nodes/types/{name}": {
+      "get": {
+        "operationId": "/types/{name}",
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/vizdotsapi/api/nodes/{name}": {
+      "get": {
+        "operationId": "/{name}",
+        "parameters": [
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "name": "activeNodes",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "showCommonOnly",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "name": "activeNodes",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "showCommonOnly",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/vizdotsapi/api/nodes/{type}/names": {
+      "get": {
+        "operationId": "/{type}/names",
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  }
+}
