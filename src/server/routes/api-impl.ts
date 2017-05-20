@@ -1,27 +1,37 @@
 var vizJs = require('viz.js');
+var loadedData = require("../LoadedData");
 import { BudNode } from "../data/BudNode";
 import { BudNodeMatcher } from "../BudNodeMatcher";
-//import {Request, Response, NextFunction} from "express";
-var loadedData = require("../LoadedData");
 
 module.exports = {
     types(req, res) {
         var types: Array<string> = loadedData.budNodesInstance.getNodeTypes();
-        res.send(types);
+        res.send(types.sort());
     },
 
-    //typeDetails(req: Request, res: Response) {
     typeDetails(req, res) {
         res.send("not ready to return config for - " + req.params.name);
     },
 
-    test(req, res) {
-        var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName("accounts-api");
+    nodesByType(req, res) {
+        var budNodes: Array<BudNode> = loadedData.budNodesInstance.getNodes(req.params.type);
+        var names: Array<string> = new Array();
+        for (let budNode of budNodes) {
+            names.push(budNode.getName());
+        }
+
+        res.send(names.sort());
+    },
+
+    connectDots(req, res) {
+        var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(req.params.name);
         //console.log("Success is sweat!", reqNode);
         var matcher: BudNodeMatcher = new BudNodeMatcher();
-        matcher.buildGraph("accounts-api", false, 3, null, false);
+        var activeNodeNames: Array<string> = new Array();
+        console.log(req.query.activeNodeNames);
+        var maxLevel = req.query.level == 0 ? 100 : req.query.level;
+        matcher.buildGraph(req.params.name, (req.query.view == "detailed"), maxLevel, null, req.query.showCommonOnly);
         //console.log(" Cluster sizes", matcher.getGraph().toString());
         res.send(vizJs(matcher.getGraph().toString()));
     }
 }
-

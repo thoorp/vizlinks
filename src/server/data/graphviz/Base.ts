@@ -27,7 +27,7 @@ export class Base {
 	protected  highlight:boolean;
 	
 	protected  gradientAngle:string;
-	public  static  VIZDOTSAPI_ROOT_URL:string = "/vizdotsapi/api/nodes/";
+	public  static  VIZDOTSAPI_ROOT_URL:string = "/vizlinks/api/nodes/";
 	public   static STYLE_INVIS:string = "invis";
 	public   static COLOR_HIGHLIGHT:string = "#AF7817";
 
