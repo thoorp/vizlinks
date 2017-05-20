@@ -15,6 +15,7 @@ var vm = new Vue({
         'pencil' : pencilComponent
     },
     data: {
+        docroot:'/vizlinks',
         topDivHeight: document.getElementById('search').offsetHeight,
         colors: {
             theme: 'grey',
@@ -207,10 +208,10 @@ var vm = new Vue({
             });
         },
         getEndpointForSearch: function (nodeName) {
-            return "/vizdotsapi/api/nodes/" + this.encode(nodeName) + "?" + this.getActiveNodeParams();
+            return this.docroot + "/api/nodes/" + this.encode(nodeName) + "?" + this.getActiveNodeParams();
         },
         getEndpointForHighlighting: function (nodeName) {
-            return "/vizdotsapi/api/nodes/" + this.encode(nodeName);
+            return this.docroot + "/api/nodes/" + this.encode(nodeName);
         },
         // NOTE: work around / vue-resource cannot handle list params. See https://github.com/vuejs/vue-resource/issues/217
         getActiveNodeParams: function () {
@@ -258,7 +259,7 @@ var vm = new Vue({
         drillDown: function (e) {
             e.stopPropagation();
             var url = e.currentTarget.getAttribute('url'); // ex:/vizdotsapi/api/nodes/customers-api
-            this.resetSearchNodes(url.substring("/vizdotsapi/api/nodes/".length));
+            this.resetSearchNodes(url.substring(this.docroot + "/api/nodes/".length));
             vm.getSVG();
         },
         resetSearchNodes: function (searchString) {
@@ -463,7 +464,7 @@ var vm = new Vue({
         },
         attachTypeahead : function(){
             $.ajax({
-                url: "/vizdotsapi/api/nodes/types",
+                url: vm.docroot + "/api/nodes/types",
                 headers: {
                     Accept: "application/json",
                 },
@@ -471,7 +472,7 @@ var vm = new Vue({
                 success: function (result) {
                     vm.sourceData  = {};
                     result.forEach(function (v) {
-                        vm.sourceData[v] = {url : ["/vizdotsapi/api/nodes/"+v+"/names"]};
+                        vm.sourceData[v] = {url : [ vm.docroot + "/api/nodes/"+v+"/names"]};
                     });
                     $("[id^=node_]").each(function(){
                         $(this).typeahead({
