@@ -73,7 +73,7 @@ app.set('port', process.env.PORT || 3000);
 //}
 
 
-app.use('/api', apiRoutes);
+app.use('/vizlinks/api', apiRoutes);
 app.use(serveStatic('../../dist', { 'index': ['index.html'] }));
 
 app.listen(5000, function () {
