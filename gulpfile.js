@@ -12,15 +12,15 @@ gulp.task('client', function () {
         .pipe(gulp.dest('dist'))
 });
 
-//move frontend css
-gulp.task('jquery-typeahead-css', function () {
-    return gulp.src('node_modules/jquery-typeahead/dist/jquery.typeahead.min.css')
-        .pipe(gulp.dest('dist/css'))
-});
-
+//move frontend css/fonts
 gulp.task('bootstrap-css', function () {
     return gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
         .pipe(gulp.dest('dist/css'))
+});
+
+gulp.task('bootstrap-fonts', function () {
+    return gulp.src('node_modules/bootstrap/fonts/*')
+        .pipe(gulp.dest('dist/fonts'))
 });
 
 gulp.task('bootstrap-slider-css', function () {
@@ -33,19 +33,20 @@ gulp.task('font-awesome-css', function () {
         .pipe(gulp.dest('dist/css'))
 });
 
+gulp.task('font-awesome-fonts', function () {
+    return gulp.src('node_modules/font-awesome/fonts/*')
+        .pipe(gulp.dest('dist/fonts'))
+});
+
 //move frontend js
 gulp.task('vue', function () {
-    return gulp.src('node_modules/vue/dist/vue.js')
+    return gulp.src('node_modules/vue/dist/vue.min.js')
         .pipe(gulp.dest('dist/js'))
 });
+
 
 gulp.task('jquery', function () {
     return gulp.src('node_modules/jquery/dist/jquery.min.js')
-        .pipe(gulp.dest('dist/js'))
-});
-
-gulp.task('jquery-typeahead-js', function () {
-    return gulp.src('node_modules/jquery-typeahead/dist/jquery.typeahead.min.js')
         .pipe(gulp.dest('dist/js'))
 });
 
@@ -71,8 +72,8 @@ gulp.task('screenfull', function () {
 
 gulp.task('clean-build', ['clean-dist', 'build']);
 
-gulp.task('build', ['client', 'jquery-typeahead-css', 'bootstrap-css', 'bootstrap-slider-css',
-    'font-awesome-css', 'vue', 'jquery', 'jquery-typeahead-js', 'bootstrap-slider', 'file-saver-js', 'svg-pan-zoom', 'screenfull']
+gulp.task('build', ['client', 'bootstrap-css', 'bootstrap-fonts', 'bootstrap-slider-css',
+    'font-awesome-css', 'font-awesome-fonts', 'vue', 'jquery', 'bootstrap-slider', 'file-saver-js', 'svg-pan-zoom', 'screenfull']
 );
 
 gulp.task('watch', function () {

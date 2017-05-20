@@ -23,7 +23,6 @@
     "font-awesome": "^4.7.0",
     "jade": "*",
     "jquery": "^3.2.1",
-    "jquery-typeahead": "^2.8.0",
     "screenfull": "^3.2.0",
     "serve-static": "^1.12.3",
     "svg-pan-zoom": "github:ariutta/svg-pan-zoom",
@@ -37,6 +36,7 @@
     "@types/chai": "^3.5.0",
     "@types/mocha": "^2.2.40",
     "del": "^2.2.2",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "nodemon": "^1.11.0"
   }
 }
