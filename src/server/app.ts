@@ -10,6 +10,8 @@ var express = require('express')
   , path = require('path');
 //
 var serveStatic = require('serve-static');
+var apiRoutes = require('./routes/api');
+
 import { BudNode } from "./data/BudNode";
 import * as Promise from 'bluebird';
 import { BudNodeMatcher } from "./BudNodeMatcher";
@@ -71,21 +73,15 @@ app.set('port', process.env.PORT || 3000);
 //}
 
 
-//app.use('/', routes);
+app.use('/api', apiRoutes);
 app.use(serveStatic('../../dist', { 'index': ['index.html'] }));
 
-app.listen(4000, function () {
+app.listen(5000, function () {
+  loadData().then(() => {
+    console.log("Loaded data!");
+  });
   console.log('Listening on port 4000!');
 });
 
-loadData().then(() => {
-  var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName("accounts-api");
-  //console.log("Success is sweat!", reqNode);
-  var matcher: BudNodeMatcher = new BudNodeMatcher();
-  // matcher.
-  matcher.buildGraph("accounts-api", false, 0, null, false);
-  // console.log(" Cluster sizes", matcher.getGraph());
 
-});
 
-//
