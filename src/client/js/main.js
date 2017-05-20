@@ -195,7 +195,7 @@ var vm = new Vue({
                 },                
                 data: this.params,
                 success: function (result, textStatus, request) {
-                    vm.processSVG(result.documentElement);
+                    vm.processSVG(result);
                     //only set maxlevels from the first call when level is set to 0
                     if(vm.params.level === 0){
                         vm.params.maxLevels = request.getResponseHeader('maxlevels');
