@@ -53,11 +53,8 @@ export function loadData() {
   });
 }
 
-
-
-
 // all environments
-app.set('port', process.env.PORT || 3000);
+//app.set('port', process.env.PORT || 3000);
 //app.set('views', __dirname + '/views');
 //app.set('view engine', 'jade');
 //app.use(express.favicon());
@@ -72,9 +69,8 @@ app.set('port', process.env.PORT || 3000);
 //  app.use(express.errorHandler());
 //}
 
-
 app.use('/vizlinks/api', apiRoutes);
-app.use(serveStatic('../../dist', { 'index': ['index.html'] }));
+app.use('/vizlinks', express.static('../../dist', { 'index': ['index.html'] }));
 
 app.listen(5000, function () {
   loadData().then(() => {
@@ -82,6 +78,3 @@ app.listen(5000, function () {
   });
   console.log('Listening on port 4000!');
 });
-
-
-
