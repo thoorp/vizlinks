@@ -25,13 +25,14 @@ module.exports = {
     },
 
     connectDots(req, res) {
-        var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(req.params.name);
+        var nodeName = decodeURIComponent(decodeURIComponent(req.params.name)).replace(/\+/g, ' ');
+        var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(nodeName);
         //console.log("Success is sweat!", reqNode);
         var matcher: BudNodeMatcher = new BudNodeMatcher();
         var activeNodeNames: Array<string> = new Array();
         console.log(req.query.activeNodeNames);
         var maxLevel = req.query.level == 0 ? 100 : req.query.level;
-        matcher.buildGraph(req.params.name, (req.query.view == "detailed"), maxLevel, null, req.query.showCommonOnly);
+        matcher.buildGraph(nodeName, (req.query.view == "detailed"), maxLevel, null, req.query.showCommonOnly);
         //console.log(" Cluster sizes", matcher.getGraph().toString());
         if (req.accepts('application/svg+xml')) {
             res.send(vizJs(matcher.getGraph().toString()));

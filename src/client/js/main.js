@@ -208,12 +208,10 @@ var vm = new Vue({
             });
         },
         getEndpointForSearch: function (nodeName) {
-            //return this.docroot + "/api/nodes/" + this.encode(nodeName) + "?" + this.getActiveNodeParams(); // not required in node
-            return this.docroot + "/api/nodes/" + nodeName + "?" + this.getActiveNodeParams();
+            return this.docroot + "/api/nodes/" + this.encode(nodeName) + "?" + this.getActiveNodeParams();
         },
         getEndpointForHighlighting: function (nodeName) {
-            //return this.docroot + "/api/nodes/" + this.encode(nodeName); // not required in node
-            return this.docroot + "/api/nodes/" + nodeName;
+            return this.docroot + "/api/nodes/" + this.encode(nodeName);
         },
         // NOTE: work around / vue-resource cannot handle list params. See https://github.com/vuejs/vue-resource/issues/217
         getActiveNodeParams: function () {
