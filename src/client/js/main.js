@@ -259,7 +259,7 @@ var vm = new Vue({
         drillDown: function (e) {
             e.stopPropagation();
             var url = e.currentTarget.getAttribute('url'); // ex:/vizdotsapi/api/nodes/customers-api
-            this.resetSearchNodes(url.substring(this.docroot + "/api/nodes/".length));
+            this.resetSearchNodes(url.substring((this.docroot + "/api/nodes/").length));
             vm.getSVG();
         },
         resetSearchNodes: function (searchString) {
