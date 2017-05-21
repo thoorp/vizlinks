@@ -30,9 +30,9 @@ module.exports = {
         //console.log("Success is sweat!", reqNode);
         var matcher: BudNodeMatcher = new BudNodeMatcher();
         var activeNodeNames: Array<string> = new Array();
-        console.log(req.query.activeNodeNames);
+        activeNodeNames.push(req.query.activeNodes);
         var maxLevel = req.query.level == 0 ? 100 : req.query.level;
-        matcher.buildGraph(nodeName, (req.query.view == "detailed"), maxLevel, null, req.query.showCommonOnly);
+        matcher.buildGraph(nodeName, (req.query.view == "detailed"), maxLevel, activeNodeNames, req.query.showCommonOnly);
         //console.log(" Cluster sizes", matcher.getGraph().toString());
         if (req.accepts('application/svg+xml')) {
             res.send(vizJs(matcher.getGraph().toString()));
