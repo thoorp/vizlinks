@@ -30,7 +30,12 @@ module.exports = {
         //console.log("Success is sweat!", reqNode);
         var matcher: BudNodeMatcher = new BudNodeMatcher();
         var activeNodeNames: Array<string> = new Array();
-        activeNodeNames.push(req.query.activeNodes);
+        if(typeof req.query.activeNodes == 'string'){
+            activeNodeNames.push(req.query.activeNodes);
+        } else {
+            activeNodeNames = req.query.activeNodes;
+        }
+        
         var maxLevel = req.query.level == 0 ? 100 : req.query.level;
         matcher.buildGraph(nodeName, (req.query.view == "detailed"), maxLevel, activeNodeNames, req.query.showCommonOnly);
         //console.log(" Cluster sizes", matcher.getGraph().toString());
