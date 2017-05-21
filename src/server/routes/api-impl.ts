@@ -33,12 +33,15 @@ module.exports = {
         var maxLevel = req.query.level == 0 ? 100 : req.query.level;
         matcher.buildGraph(req.params.name, (req.query.view == "detailed"), maxLevel, null, req.query.showCommonOnly);
         //console.log(" Cluster sizes", matcher.getGraph().toString());
-        if(req.accepts('application/svg+xml')){
+        if (req.accepts('application/svg+xml')) {
             res.send(vizJs(matcher.getGraph().toString()));
-        }   
-        if(req.accepts('application/json')){
+        }
+        if (req.accepts('application/json')) {
             //console.log(util.inspect(matcher.getGraph(), { showHidden: true, depth: null }));
-            res.send(JSON.stringify(matcher.getGraph().toString()));
-        }        
+            res.send(JSON.stringify(matcher.getGraph(), function (key, val) {
+                if (key !== "cluster")
+                    return val;
+            },2));
+        }
     }
 }
