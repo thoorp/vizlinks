@@ -37,12 +37,11 @@ module.exports = {
             res.send(vizJs(matcher.getGraph().toString()));
         }
         if (req.accepts('application/json')) {            
-            //console.log(util.inspect(matcher.getGraph(), { showHidden: true, depth: null }));
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(matcher.getGraph(), function (key, val) {
+            res.send(JSON.parse(JSON.stringify(matcher.getGraph(), function (key, val) {
                 if (key !== "cluster")
                     return val;
-            },2));
+            },2)));
         }
     }
 }

@@ -6,6 +6,12 @@ gulp.task('clean-dist', function () {
     return del('dist/**', { force: true });
 });
 
+//move server files
+gulp.task('server', function () {
+    return gulp.src(['src/server/**/*', '!src/server/**/*.ts'])
+        .pipe(gulp.dest('dist/server'))
+});
+
 //move html/js/css/img files
 gulp.task('client', function () {
     return gulp.src('src/client/**/*')
@@ -72,7 +78,7 @@ gulp.task('screenfull', function () {
 
 gulp.task('clean-build', ['clean-dist', 'build']);
 
-gulp.task('build', ['client', 'bootstrap-css', 'bootstrap-fonts', 'bootstrap-slider-css',
+gulp.task('build', ['server', 'client', 'bootstrap-css', 'bootstrap-fonts', 'bootstrap-slider-css',
     'font-awesome-css', 'font-awesome-fonts', 'vue', 'jquery', 'bootstrap-slider', 'file-saver-js', 'svg-pan-zoom', 'screenfull']
 );
 
