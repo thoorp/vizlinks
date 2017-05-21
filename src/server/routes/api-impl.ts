@@ -36,8 +36,9 @@ module.exports = {
         if (req.accepts('application/svg+xml')) {
             res.send(vizJs(matcher.getGraph().toString()));
         }
-        if (req.accepts('application/json')) {
+        if (req.accepts('application/json')) {            
             //console.log(util.inspect(matcher.getGraph(), { showHidden: true, depth: null }));
+            res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(matcher.getGraph(), function (key, val) {
                 if (key !== "cluster")
                     return val;

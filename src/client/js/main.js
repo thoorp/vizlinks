@@ -418,7 +418,7 @@ var vm = new Vue({
         paintDependent: function (edgeTitle) {
             [].forEach.call(this.mysvg.querySelectorAll('g .edge'), function (v) {
                 var edgeChildren = v.childNodes;
-                if (edgeChildren[0].textContent === edgeTitle) {
+                if (decodeURI(edgeChildren[1].textContent) === edgeTitle) {
                     vm.paintEdge(v.id, 'red', '0');
                 }
             });
@@ -439,7 +439,7 @@ var vm = new Vue({
             }
         },
         paintEdge: function (edgeId, colorName, dasharray) {
-            var x, i, e2, e = document.getElementById(edgeId).childNodes[2].childNodes;
+            var x, i, e2, e = document.getElementById(edgeId).childNodes[3].childNodes;
             for (i = 0; i < e.length; i++) {
                 e2 = e[i].childNodes;
                 for (x = 0; x < e2.length; x++) {
