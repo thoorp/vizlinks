@@ -1,7 +1,8 @@
 Local setup:
-#install typescript globally if not done already
+#install command-line tools globally if not done already
 npm install -g typescript
 npm install -g gulp
+npm install -g nodemon
 
 #run tsc(type scrypt compiler). 
 tsc -p . -m commonjs
