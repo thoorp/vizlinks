@@ -8,4 +8,5 @@ tsc -p . -m commonjs
 # Note - Notice -m commonjs to convert import statements to require. Refer - http://stackoverflow.com/questions/38711136/why-am-i-getting-unexpected-token-import-on-one-webpack-project-but-not-the-ot
 
 #run app
+cd vizlinks/dist/server
 node app.js
