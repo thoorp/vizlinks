@@ -1,7 +1,7 @@
-
 Local setup:
 #install typescript globally if not done already
 npm install -g typescript
+npm install -g gulp
 
 #run tsc(type scrypt compiler). 
 tsc -p . -m commonjs
@@ -9,4 +9,3 @@ tsc -p . -m commonjs
 
 #run app
 node app.js
- 
