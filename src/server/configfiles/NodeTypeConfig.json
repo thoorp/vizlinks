@@ -28,7 +28,7 @@
         "graphvizClusterFontSize": 12,
         "graphvizClusterIconFont": "&#xf013;",
         "graphvizNodeStyle": "filled",
-        "graphvizNodeColor": "#F2F2F2",
+        "graphvizNodeColor": "black:#F2F2F2",
         "graphvizNodeFontColor": "grey36",
         "graphvizNodeFontName": "Courier-Bold,FontAwesome",
         "graphvizNodeGradientAngle": 200,
@@ -107,8 +107,7 @@
         "graphvizClusterFontSize": 12,
         "graphvizClusterIconFont": "&#xf0c1;",
         "graphvizNodeStyle": "filled",
-        "graphvizNodeShape": "box3d",
-        "graphvizNodeColor": "white:#F2F2F2",
+        "graphvizNodeColor": "black:#F2F2F2",
         "graphvizNodeFontColor": "grey36",
         "graphvizNodeFontName": "Courier-Bold,FontAwesome",
         "graphvizNodeGradientAngle": 200,
@@ -126,22 +125,11 @@
         "graphvizClusterFontSize": 12,
         "graphvizClusterIconFont": "&#xf10b;",
         "graphvizNodeStyle": "filled",
-        "graphvizNodeColor": "white:#F2F2F2",
+        "graphvizNodeColor": "black:#F2F2F2",
         "graphvizNodeFontColor": "grey36",
         "graphvizNodeFontName": "Courier-Bold,FontAwesome",
         "graphvizNodeGradientAngle": 200,
         "graphvizNodeFontSize": 10,
         "graphvizNodeIconFont": "&#xf10b;"
-    },
-    "transaction": {
-        "level": "TOP_INDEPENDENT_LEVEL",
-        "rank": 1,
-        "displayForNonActiveNode": false,
-        "graphvizClusterStyle": "rounded",
-        "graphvizClusterColor": "/greys9/2",
-        "graphvizClusterFontColor": "black",
-        "graphvizClusterFontName": "Courier-Bold,FontAwesome",
-        "graphvizClusterFontSize": 12,
-        "graphvizClusterIconFont": "&#xf181;"
     }
 }

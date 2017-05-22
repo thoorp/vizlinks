@@ -25,8 +25,6 @@ export class VizNode extends Base {
 		result.style = loadedData.configData[budnode.getType()].graphvizNodeStyle;
 		result.iconFont = loadedData.configData[budnode.getType()].graphvizNodeIconFont;
 		result.shape = loadedData.configData[budnode.getType()].graphvizNodeShape;
-
-
 		result.gradientAngle = loadedData.configData[budnode.getType()].graphvizNodeGradientAngle;
 
 		VizNode.populateUrl(budnode, result);

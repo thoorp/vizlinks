@@ -1,4 +1,0 @@
-*api	*function	*transaction
-master-data-v2	persistParty	RWCP1132
-master-data-v2	retrievePartyDetails	RWCP1132
-accounts-api	POST /accounts/{reserve-id}	RWCP1134

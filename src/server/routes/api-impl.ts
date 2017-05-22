@@ -49,5 +49,8 @@ module.exports = {
                     return val;
             },2)));
         }
+        if (req.accepts('text/plain')) {
+            res.send(matcher.getGraph().toString());
+        }
     }
 }

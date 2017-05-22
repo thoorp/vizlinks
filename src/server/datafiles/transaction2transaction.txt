@@ -1,4 +1,0 @@
-*transaction	*transaction
-RWCP1132	RWCP1134
-RWCP1132	RWCP1136
-***http://www.careerride.com/Oracle-Legacy-Modernization.aspx
