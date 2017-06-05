@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "mocha -r ts-node/register data/tests/testDataClass.ts"
+    "test": "mocha -r ts-node/register src/server/data/tests/testDataClass.ts"
   },
   "dependencies": {
     "@types/bunyan": "0.0.36",

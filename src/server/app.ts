@@ -19,7 +19,7 @@ import { BudNodeMatcher } from "./BudNodeMatcher";
 var fs: any = Promise.promisifyAll(require('fs'));
 var app = express();
 
-var data = require('./data/data');
+var data = require('./data/dataSync');
 var loadedData = require("./LoadedData");
 
 Promise.config({
@@ -36,11 +36,13 @@ Promise.config({
 
 export function loadData() {
 
-  return new Promise((resolve, reject) => {
+  //return new Promise((resolve, reject) => {
     //Load config files
-    data.readConfigFiles()
-      .then(() => { console.log("about to call read data", loadedData.configData); return data.readData() })
-      .then(() => { console.log("step 2"); return resolve(); })
+    data.readConfigFiles();
+    data.readData();
+
+      //.then(() => { console.log("about to call read data", loadedData.configData); return data.readData() })
+      //.then(() => { console.log("step 2"); return resolve(); })
     // .then(() => { console.log("Read dir completed - Links");
     // console.log("Read complete - Nodes")  });
     //     .then(()=>{
@@ -50,7 +52,7 @@ export function loadData() {
 
     //   });
 
-  });
+  //});
 }
 
 // all environments
@@ -73,8 +75,9 @@ app.use('/vizlinks/api', apiRoutes);
 app.use('/vizlinks', express.static('../../dist', { 'index': ['index.html'] }));
 
 app.listen(5000, function () {
-  loadData().then(() => {
-    console.log("Loaded data!");
-  });
-  console.log('Listening on port 4000!');
+  loadData();
+  //.then(() => {
+  //  console.log("Loaded data!");
+  //});
+  console.log('Listening on port 5000!');
 });

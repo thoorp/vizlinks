@@ -1,0 +1,108 @@
+Environment  
+Add  tag category & tags as first parameters in the file.
+
+
+Create Tags class
+--------------------
+It will have a Map of String,String[]
+Add methods
+
+AddTag(key,value)  
+If isTagExists is true - return without doing anything
+else	if Key does not exists in map, create empty array and add it to map with key;  add to array
+
+isTagExists(TagCategory,tag) -  get from the map using tagcategory; loop string[] and compare; if exists return true; else false for all other conditions
+
+isTagsExists(TagCategory,tag[]) -  call isTagExists for each of the tag[] element. Return true if all tags exists. Check array Splice and other methods
+
+isAllTagsExists(Tags pTag) - if pTag is null or pTag.hasTags() is false return true;
+				call pTag.getAllTags() - Loop through map and for each item found, call isTagsExists(key, value[]); Return true if all tags exists
+
+getAllTags() - return Map as is
+
+getAllTagsForCategory(key) - return [] from the map for the key
+
+hasTags() - return true if atleast one string[] object exists
+
+addTags(key, value[]) - For each value item - call this.addTag(key,value[i])
+
+addTags(Tags pTag) - need to add all the tags in the passed object to 'this' object
+				if pTag is null or pTag.hasTags() is false return;
+				call pTag.getAllTags() - Loop through map and for each item found, call addTags(key, value[])
+
+BudNode
+-------
+	Add Tags object as a parameter
+	modify constructor to take it as a parameter
+	add getter and setter methods
+
+Link
+----
+	Add Tags object as a parameter
+	modify constructor to take it as a parameter
+	add getter and setter methods
+	
+Links
+-----
+
+	Modify addLink() method -
+		Check if a link exists with same source & destination by passing tags object
+		If exists, just add the tags to the links tags
+		if not, add the link object
+		
+	Overload all the find methods to take additional Tags parameter
+	when searching and finding a link, check the existance of tags THIS NEEDS TO BE THOUGHT THROUGH..
+		
+
+BudNodes
+-------  
+In getorAddNode - pass the tag object as parameter
+	call getNode() - if it returns null - create node with passed tags to the object;
+	if it finds the node, and tagobject.hasTags() is true & returnednode.hasTags() is also true - then call addTags() by passing param tags object
+	
+getNode (type, name) - take additional parameter Tags, 
+
+	find object without any tag by Ensuring hasTags() is false;  if found return it ;
+	If not found, if passed tag hasTags() is true -> find object without checking hasTags(); if hasTags() is false; return false;
+		
+getNodeByName(name) - take additional parameter Tags
+		Change method to pass getNode Tags object.
+	
+data
+-----
+while reading the file
+create a tag object
+If there is a tag, addTag() is called
+call getorAddNodes wiith Tags as additional parameter
+call addLink() with Tags as additional parameter
+	
+	
+Core Processing Logic 
+----------------------
+	
+		
+
+  
+If there is a tag, name the nodes as name+tag;  No change in link
+
+When tag is passed as parameter -
+First find a node that has the tag
+if present - 
+	find the source node without the tag ik
+		if found check in the 
+	get the link and when processing the dest node, 
+	find the dest node without the tag
+	if found, 
+		add the link to the found node in cluster with the tag 
+	else
+		mark the cluster with the tag
+	end if
+	find the source node without the tag
+		if found
+Else
+	continue with current logic 
+		
+	Add all the links
+	
+	
+	

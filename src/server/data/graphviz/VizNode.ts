@@ -63,7 +63,7 @@ export class VizNode extends Base {
 
 		// TODO DISPLAY LOGIC: sort all types of nodes - first based on the shape and second by name (converted to lowercase). 
 		// this is achieved by concatenating shape and name and use it for comparing.
-		var str: string = ((this.shape == null) ? "" : this.shape.toLowerCase()) + ((name == null) ? "" : this.name.toLowerCase());
+		var str: string = ((this.shape == null) ? "" : this.shape.toLowerCase()) + ((this.name == null) ? "" : this.name.toLowerCase());
 		//return str.compareTo(compareString);
 		return str.valueOf();
 	}

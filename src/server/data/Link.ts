@@ -1,19 +1,22 @@
 
 import { BudNode } from "./BudNode";
+import { Tags } from "./Tags";
 
  export class Link {
 
 	 srcNode:BudNode;
 	destNode:BudNode;
+	tags:Tags;
 
-	 constructor( srcNode:BudNode,  destNode:BudNode) {
+	 constructor( srcNode:BudNode,  destNode:BudNode, tags:Tags) {
 		this.srcNode = srcNode;
 		this.destNode = destNode;
+		this.tags = tags;
 		//console.log("Link created src dest",srcNode.getName(),destNode.getName())
 	}
 
 	public  toString():string {
-		return "Link [srcNode=" + this.srcNode.toString() + ", destNode=" + this.destNode.toString() + "]";
+		return "Link [srcNode=" + this.srcNode.toString() + ", destNode=" + this.destNode.toString() + ", tags= "+this.tags.toString()+ "]";
 	}
 
 	
@@ -62,4 +65,7 @@ import { BudNode } from "./BudNode";
 		this.destNode = destNode;
 	}
 
+	public getTags():Tags{
+		return this.tags;
+	}
 }

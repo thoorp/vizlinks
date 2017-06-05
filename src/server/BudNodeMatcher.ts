@@ -7,6 +7,7 @@ import { Graph } from "./data/graphviz/Graph";
 import { VizNode } from "./data/graphviz/VizNode";
 import { VizdotsConstants } from "./VizdotsConstants";
 import * as Logger from "bunyan";
+import {Tags} from "./data/Tags"
 
 var loadedData = require("./LoadedData");
 
