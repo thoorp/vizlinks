@@ -1,5 +1,6 @@
 import { Tags } from "./Tags";
 var loadedData = require("../LoadedData");
+const R = require("ramda");
 
 export class BudNode {
 	name: string;
@@ -76,8 +77,9 @@ export class BudNode {
 	}
 
 
-	public getChildren(): BudNode[] {
-		return this.children;
+	public getChildren(pTags:Tags=new Tags()): BudNode[] {
+		
+		 return R.filter(x=>  x.getTags().isAllTagsExists(pTags), this.children);
 	}
 
 	getName(): string {
@@ -87,18 +89,13 @@ export class BudNode {
 	public equals(param: BudNode): boolean {
 
 		//console.log("Equals called ",this.name,param.name, this.type,param.type,param.name== this.name && param.type== this.type);
-		if (param.name == this.name && param.type == this.type)
-			return true;
-		else
-			return false;
+		return (param.name == this.name && param.type == this.type);
+
 	}
 
 	public getLabel(): string {
 		var label = this.userProperties.get("label");
-		if (label != null)
-			return label;
-		else
-			return this.name;
+		return label != null?label:this.name;
 	}
 
 	public isTopIndependentLevel(): boolean {

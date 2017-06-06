@@ -8,7 +8,7 @@ import { Tags } from "./Tags";
 	destNode:BudNode;
 	tags:Tags;
 
-	 constructor( srcNode:BudNode,  destNode:BudNode, tags:Tags) {
+	 constructor( srcNode:BudNode,  destNode:BudNode, tags:Tags=new Tags()) {
 		this.srcNode = srcNode;
 		this.destNode = destNode;
 		this.tags = tags;

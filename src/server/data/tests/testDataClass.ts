@@ -11,6 +11,10 @@ import { BudNodeMatcher } from "../../BudNodeMatcher";
 import { loadData } from "../../app"
 import { Tags } from "../Tags";
 import * as fs from 'fs';
+
+const R = require('ramda');
+
+
 var chaiAsPromised = require("chai-as-promised");
 //chai.use(chaiAsPromised);
 
@@ -31,12 +35,12 @@ var configstr = '{"app": {"level": "TOP_INDEPENDENT_LEVEL", "rank": 1}, "functio
 
 var configData = JSON.parse(configstr);
 
-let emptyTags:Tags = new Tags();
 
-let bnode: BudNode = new BudNode("CustomerApi", "app", configData,emptyTags);
-let fnode: BudNode = new BudNode("getCustomerDetails1", "function", configData,emptyTags);
-let fnode2: BudNode = new BudNode("getCustomerDetails2", "function", configData,emptyTags);
-let fnode3: BudNode = new BudNode("getCustomerDetails3", "function", configData,emptyTags);
+
+let bnode: BudNode = new BudNode("CustomerApi", "app", configData);
+let fnode: BudNode = new BudNode("getCustomerDetails1", "function", configData);
+let fnode2: BudNode = new BudNode("getCustomerDetails2", "function", configData);
+let fnode3: BudNode = new BudNode("getCustomerDetails3", "function", configData);
 bnode.addChild(fnode);
 
 //Define nodes with tags
@@ -47,29 +51,43 @@ let fnodetag: BudNode = new BudNode("getCustomerDetails1", "function", configDat
 bnodetag.addChild(fnodetag);
 
 
-let domainnode: BudNode = new BudNode("Tomcat", "domain", configData,emptyTags);
+let domainnode: BudNode = new BudNode("Tomcat", "domain", configData);
 
 let allnodes = new BudNodes();
-allnodes.addNode("app", bnode,emptyTags);
-allnodes.addNode("function", fnode,emptyTags);
-allnodes.addNode("function", fnode2,emptyTags);
-allnodes.addNode("function", fnode3,emptyTags);
+allnodes.addNode("app", bnode);
+allnodes.addNode("function", fnode);
+allnodes.addNode("function", fnode2);
+allnodes.addNode("function", fnode3);
 
 allnodes.addNode("app", bnodetag,tags);
 allnodes.addNode("function", fnodetag,tags);
 
 
-let apinode: BudNode = allnodes.getOrAddNode("api", "AccountsApi", configData,emptyTags);
+let apinode: BudNode = allnodes.getOrAddNode("api", "AccountsApi", configData);
 
 
 function DataReadTest(){
     data.readConfigFiles();
-        var f = path.join(__dirname, '..','..', 'datafiles','api-function2api-function-Dev.txt');
+    
+// const accapi:BudNode = loadedData.budNodesInstance.getOrAddNode("api",
+//                          "accounts-api",loadedData.configData);
+// const fnodeapi:BudNode = loadedData.budNodesInstance.getOrAddNode("function",
+//                          "Sample",loadedData.configData);
+// accapi.addChild(fnodeapi);
+// const accapitagged:BudNode = loadedData.budNodesInstance.getOrAddNode("api",
+//                          "accounts-api",loadedData.configData,new Tags().addTag("Env","Dev"));
+// console.log("child count of node 1", accapi.getChildren().length);
+// console.log("child count of node 2", loadedData.budNodesInstance.getNodeByName("accounts-api").getChildren().length);
+// console.log("child count of node 3", loadedData.budNodesInstance.getNodeByName("accounts-api",
+// new Tags().addTag("Env","Dev")).getChildren().length);
+
+
+//        var f = path.join(__dirname, '..','..', 'datafiles','api-function2api-function-Dev.txt');
         var err;
        
             // Promise.map awaits for returned promises as well.
        
-             pf.processFile(err,fs.readFileSync(f, 'utf8'));
+  //           pf.processFile(err,fs.readFileSync(f, 'utf8'));
        
         const accountsapinode = loadedData.budNodesInstance.getNodeByName("accounts-api",new Tags().addTag("Env","Dev"));
 
@@ -78,7 +96,7 @@ function DataReadTest(){
         expect(loadedData.budNodesInstance.getNodeByName("customers-api",new Tags())).not.null;
         expect(loadedData.budNodesInstance.getNodeByName("customers-api",new Tags().addTag("Env","Dev"))).not.null;
         expect(loadedData.budNodesInstance.getNodeByName("master-data-v2",new Tags())).not.null;
-        expect(loadedData.budNodesInstance.getNodeByName("accounts-api",new Tags())).null;
+//        expect(loadedData.budNodesInstance.getNodeByName("accounts-api",new Tags())).null;
         expect(accountsapinode).not.null;
     });
 
@@ -90,7 +108,7 @@ function DataReadTest(){
         expect(loadedData.linksInstance.getLinks().length).greaterThan(0);
         
         expect(loadedData.linksInstance.getDownStreamBudNodes(reserveid,new Tags().addTag("Env","Dev")).length).greaterThan(0);
-        expect(loadedData.linksInstance.getDownStreamBudNodes(reserveid).length).equals(0); 
+  //      expect(loadedData.linksInstance.getDownStreamBudNodes(reserveid).length).equals(0); 
 
        const reserveidperosnal = loadedData.budNodesInstance.getNodeByName("POST /customers/{reserve-id}/personal",new Tags());
         expect(reserveidperosnal).not.null;
@@ -133,12 +151,12 @@ function BudNodeTest() {
 
 function BudNodesTest() {
     it('BudNodes test ', function () {
-        expect(allnodes.getNode("app", "CustomerApi",emptyTags).getName()).to.equal("CustomerApi");
-        expect(allnodes.getNodeByName("getCustomerDetails3",emptyTags).getName()).to.equal("getCustomerDetails3");
+        expect(allnodes.getNode("app", "CustomerApi").getName()).to.equal("CustomerApi");
+        expect(allnodes.getNodeByName("getCustomerDetails3").getName()).to.equal("getCustomerDetails3");
         expect(allnodes.getNodeTypes().length).to.equal(3);
 
-        let fnode4 = new BudNode("getCustomerDetails2", "function", configData,emptyTags);
-        allnodes.getOrAddNode("function", "getCustomerDetails2", configData,emptyTags);
+        let fnode4 = new BudNode("getCustomerDetails2", "function", configData);
+        allnodes.getOrAddNode("function", "getCustomerDetails2", configData);
 
         expect(allnodes.getNodes("function").length).to.equal(3);
 
@@ -151,8 +169,8 @@ function BudNodesTest() {
 
 let l, l2: Link;
 function LinkTest() {
-    l = new Link(fnode2, apinode,emptyTags);
-    l2 = new Link(fnode, apinode,emptyTags);
+    l = new Link(fnode2, apinode);
+    l2 = new Link(fnode, apinode);
     it('Link test ', function () {
         //console.log(l.toString());
         expect(l.getDestNode().getName()).to.equal("AccountsApi");
@@ -167,14 +185,14 @@ function LinksTest() {
     links.addLink(l2);
 
     it('Links test ', function () {
-        expect(links.getUpStreamNodes(apinode,emptyTags).length).to.equal(2);
-        expect(links.getDownStreamBudNodes(fnode2,emptyTags)[0].getName()).to.equal("AccountsApi");
-        expect(links.getDownstreamLateralBudNodes(fnode,emptyTags).length).to.equal(0);
+        expect(links.getUpStreamNodes(apinode).length).to.equal(2);
+        expect(links.getDownStreamBudNodes(fnode2)[0].getName()).to.equal("AccountsApi");
+        expect(links.getDownstreamLateralBudNodes(fnode).length).to.equal(0);
 
-        let l3: Link = new Link(fnode, domainnode,emptyTags);
+        let l3: Link = new Link(fnode, domainnode);
         links.addLink(l3);
 
-        expect(links.getDownstreamLateralBudNodes(fnode,emptyTags)[0].getName()).to.equal("Tomcat");
+        expect(links.getDownstreamLateralBudNodes(fnode)[0].getName()).to.equal("Tomcat");
     });
 }
 
@@ -193,11 +211,33 @@ function LinksTest() {
 
 function BudNodeMatcherTest() {
     //Test bud Node - Mother of all tests
+   data.readConfigFiles();
+    data.readData();
     var matcher: BudNodeMatcher = new BudNodeMatcher();
    // matcher.
-    matcher.buildGraph("accounts-api", false, 0, null, false);
+
+   let devtag:Tags = new Tags().addTag("Env","Dev");
+   let accnode:BudNode = loadedData.budNodesInstance.getNodeByName("accounts-api",devtag);
+    var result =  R.map(x=>x.getName(), accnode.getChildren());
+    log.debug("test 1",result);
+ accnode = loadedData.budNodesInstance.getNodeByName("accounts-api");
+var result =  R.map(x=>x.getName(), accnode.getChildren());
+    log.debug("test 2",result);
+var newnode:BudNode = loadedData.budNodesInstance.getNodeByName("POST /accounts/{reserve-id-new}",devtag);
+log.debug(newnode.getParent().getName());
+log.debug("test 3", newnode.getParent().getTags(), R.map(x=>x.getName(), newnode.getParent().getChildren()));
+
     
+
+    // matcher.buildGraph("POST /accounts/{reserve-id-new}", true, 100, null, false,devtag);
+    // log.debug(matcher.getGraph().toString());
     
+    // matcher.buildGraph("accounts-api", true, 100, null, false,devtag);
+    // log.debug(matcher.getGraph().toString());
+
+    matcher.buildGraph("accounts-api", true, 100, null, false);
+    log.debug(matcher.getGraph().toString());
+
     it('Active bud nodes test ', function () {
         expect(matcher.activeBudNodes.length).to.equals(1);
     });
@@ -215,6 +255,6 @@ describe('Dataclasses', function () {
     describe('Links', LinksTest);
     describe('Tags',TagsTest);
     describe('DataRead', DataReadTest);
-   // describe('BudNodeMatcher', BudNodeMatcherTest)
+    describe('BudNodeMatcher', BudNodeMatcherTest)
 
 });

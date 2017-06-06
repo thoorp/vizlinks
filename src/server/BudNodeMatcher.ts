@@ -16,6 +16,7 @@ var log = Logger.createLogger({name: 'vizLinks'});
 log.level("info");
 
 export class BudNodeMatcher {
+    reqTags: Tags;
 
 
     graph: Graph = new Graph();
@@ -47,7 +48,7 @@ export class BudNodeMatcher {
         this.activeBudNodes.push(reqNode);
         if (activeNodeNames != null)
             for (var i = 0; i < activeNodeNames.length; i++) {
-                var budNode: BudNode = loadedData.budNodesInstance.getNodeByName(activeNodeNames[i]);
+                var budNode: BudNode = loadedData.budNodesInstance.getNodeByName(activeNodeNames[i],this.reqTags);
                 if (budNode != null)
                     this.activeBudNodes.push(budNode);
             }
@@ -115,8 +116,10 @@ export class BudNodeMatcher {
 	 * @param activeNodeNames specifies list of nodes to merge graph and identify common nodes
 	 * @param showCommonOnly if true will hide all nodes that are not common between supplied activeNodes. Applicable only if activeNodes parameter is not empty
 	 */
-    public buildGraph(reqNodeName: string, isDetailed: boolean, maxLevelsParam: number, activeNodeNames: Array<string>, showCommonOnly: boolean) {
-        var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(reqNodeName);
+    public buildGraph(reqNodeName: string, isDetailed: boolean, maxLevelsParam: number, activeNodeNames: Array<string>,
+     showCommonOnly: boolean, passedTags:Tags=new Tags()) {
+        this.reqTags = passedTags;
+        var reqNode: BudNode = loadedData.budNodesInstance.getNodeByName(reqNodeName, this.reqTags);
         if (reqNode == null)  //current node invalid, stop proessing
         {
              log.warn("Cannot find passed node", reqNodeName);
@@ -194,7 +197,8 @@ export class BudNodeMatcher {
         // Ex: For a database/domain you get one level of upstream laterals and
         // then for each node it is downstream.
 
-        var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, this.direction);
+        var lateralNodes: Array<BudNode> = loadedData.linksInstance.getLateralNodes(isActiveNode, reqBudNodeForLaterals, 
+        this.direction,this.reqTags);
 
         var upstreamlaterals: boolean = (this.direction == BudNodeMatcher.DIRECTION_UP && isActiveNode);
         //  console.log ("findAndBuildLateralNodes",reqBudNodeForLaterals.getName(),lateralNodes.length);
@@ -397,7 +401,7 @@ export class BudNodeMatcher {
 	 */
     private processBudNode(reqSrcBudNode: BudNode) {
 
-        var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction);
+        var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction,this.reqTags);
         log.debug("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(), this.direction);
         for (var i: number = 0; i < updownBudNodes.length; i++) {
             var updownBudNode: BudNode = updownBudNodes[i];
@@ -409,7 +413,9 @@ export class BudNodeMatcher {
     }
 
     protected processChildNodes(reqBudNode: BudNode, isActiveNode: boolean) {
-        var reqBudNodeChildren: Array<BudNode> = reqBudNode.getChildren();
+        var reqBudNodeChildren: Array<BudNode> = reqBudNode.getChildren(this.reqTags);
+        
+
         for (var i: number = 0; i < reqBudNodeChildren.length; i++) {
             var reqBudNodeChild: BudNode = reqBudNodeChildren[i];
             //In the case of highlevel view, we do not need individual child nodes as we use selfnode

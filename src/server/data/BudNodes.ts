@@ -48,7 +48,8 @@ export class BudNodes {
 
         }
         //If not found, find the node irrespective of tags
-        if(result==null && tags.hasTags()){
+        //removed && tags.hasTags()
+        if(result==null ){
              for (var i = 0; i < list.length; i++) {
 
             if (list[i].getName() == name ) {
