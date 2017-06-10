@@ -1,10 +1,11 @@
 import * as Logger from "bunyan";
+const R = require("ramda");
 
 export class Tags {
 
     // Key - TagCategory a string; Value - multiple tags under that category Ex: Env:{Dev,Systemtest}
     public tags: Map<string, Array<string>> = new Map<string, Array<string>>();
-    public log: Logger = Logger.createLogger({ name: 'vizLinks', level: 'debug' });
+//    public log: Logger = Logger.createLogger({ name: 'vizLinks', level: 'debug' });
 
     /**
      * Clone the current object so that it can be associated while creating Links or BudNodes
@@ -26,7 +27,8 @@ export class Tags {
     public isTagExists(pTagCategory: string, tag: string): boolean {
         var retValue: boolean = false;
         if (this.tags.get(pTagCategory) != null) {
-            retValue = this.tags.get(pTagCategory).indexOf(tag) === -1 ? false : true;
+            // retValue = this.tags.get(pTagCategory).indexOf(tag) === -1 ? false : true;
+            retValue = R.contains(tag, this.tags.get(pTagCategory));
         }
         return retValue;
     }
@@ -37,7 +39,7 @@ export class Tags {
      * @param tag 
      */
     public addTag(pTagCategory: string, pTag: string): Tags {
-        if (!this.isTagExists(pTagCategory, pTag) && pTag.trim().length>0 ) {
+        if (!this.isTagExists(pTagCategory, pTag) && pTag.trim().length > 0) {
             var lTags: string[] = this.tags.get(pTagCategory);
             if (lTags == null) {
                 lTags = [];
@@ -71,15 +73,22 @@ export class Tags {
      * @param pTags 
      */
     public isAllTagsExists(pTags: Tags): boolean {
-        var retValue: boolean[] = [];
-        var iter: IterableIterator<string> = pTags.getAllTags().keys();
-        if(this.hasTags() && !pTags.hasTags()){
+        // var retValue: boolean[] = [];
+        //var iter: IterableIterator<string> = pTags.getAllTags().keys();
+        if (this.hasTags() && !pTags.hasTags()) {
             return false; //If passed tags is empty and current object has tags, it should not match
         }
-        for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
-            retValue.push(this.isTagsExists(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value)));
-        }
-        return retValue.indexOf(false) == -1 ? true : false;
+
+
+
+        const condcheck = (curr) => this.isTagsExists(curr[0], pTags.getAllTagsForCategory(curr[0]))
+
+        return R.all(condcheck)([...(pTags.getAllTags())]);
+
+        // for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
+        //     retValue.push(this.isTagsExists(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value)));
+        // }
+        // return retValue.indexOf(false) == -1 ? true : false;
     }
 
     /**
@@ -112,9 +121,12 @@ export class Tags {
      * @param pTag 
      */
     public addAllTags(pTags: Tags) {
-        var iter: IterableIterator<string> = pTags.getAllTags().keys();
-        for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
-            this.addTags(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value));
-        }
+        R.forEach(
+            curr => this.addTags(curr[0], pTags.getAllTagsForCategory(curr[0])),
+            [...pTags.getAllTags()]);
+        // var iter: IterableIterator<string> = pTags.getAllTags().keys();
+        // for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
+        //     this.addTags(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value));
+        // }
     }
 }

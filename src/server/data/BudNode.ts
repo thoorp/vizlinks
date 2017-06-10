@@ -66,10 +66,11 @@ export class BudNode {
 	}
 
 	public containsChild(param: BudNode): boolean {
-		for (var i = 0; i < this.children.length; i++) {
-			if (this.children[i].equals(param)) return true;
-		}
-		return false;
+		return R.contains(param,this.children);
+		// for (var i = 0; i < this.children.length; i++) {
+		// 	if (this.children[i].equals(param)) return true;
+		// }
+		// return false;
 	}
 
 	public addUserProperty(propName: string, propValue: string) {

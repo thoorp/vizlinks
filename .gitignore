@@ -1,5 +1,6 @@
 .vs/*
 .vscode/*
+log*.txt
 *.js
 obj/*
 dist

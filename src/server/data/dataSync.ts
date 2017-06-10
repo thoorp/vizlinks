@@ -46,8 +46,8 @@ module.exports.readData = function () {
         var err;
         fs.readdirSync(datafilespath).map(function (f) {
             // Promise.map awaits for returned promises as well.
-            f = path.join(datafilespath, f);
-            return pf.processFile(err,fs.readFileSync(f, 'utf8'))
+            var fullfilename = path.join(datafilespath, f);
+            return pf.processFile(err,fs.readFileSync(fullfilename, 'utf8'),f)
         });
         log.debug(loadedData.budNodesInstance)
         

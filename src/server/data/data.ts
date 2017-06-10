@@ -24,9 +24,9 @@ module.exports.readData = function () {
         var err;
         fs.readdirAsync(datafilespath).map(function (f) {
             // Promise.map awaits for returned promises as well.
-            f = path.join(datafilespath, f);
-            return fs.readFileAsync(f, 'utf8').then((fileData) => {
-                return processFile(err, fileData)
+            var fullpath = path.join(datafilespath, f);
+            return fs.readFileAsync(fullpath, 'utf8').then((fileData) => {
+                return processFile(err, fileData,f)
             });
 
         }).then(function () {
@@ -53,9 +53,9 @@ module.exports.readConfigFiles = function () {
 
 
 
-function processFile(err, data) {
+function processFile(err, data,f) {
     return new Promise((resolve, reject) => {
-        pf.processFile(err, data);
+        pf.processFile(err, data,f);
         //Process the read lines
         return resolve();
     });

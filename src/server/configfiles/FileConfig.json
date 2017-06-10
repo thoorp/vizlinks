@@ -1,0 +1,16 @@
+{
+    "api-function2api-function.txt": {
+        "tags":{
+            
+        }
+    },
+    "api-function2api-function-stg.txt": {
+        "tags":{
+            "Env":"Staging",
+            "channel":["mobile","ipad"]
+        }
+    },
+    "api2domain.txt":{
+
+    }
+}

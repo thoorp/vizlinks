@@ -13,7 +13,7 @@ var loadedData = require("./LoadedData");
 
 
 var log = Logger.createLogger({name: 'vizLinks'});
-log.level("info");
+log.level("debug");
 
 export class BudNodeMatcher {
     reqTags: Tags;
@@ -105,6 +105,8 @@ export class BudNodeMatcher {
             else
                 updown = updownBudNode.getParent();
         }
+        log.debug("buildEdge",reqSrcBudNode.getName(),updownBudNode.getName(),req?req.getName():null,updown?updown.getName():null);
+
         this.graph.buildEdge(this.isDetailed, req, updown, this.direction);
     }
 
@@ -402,7 +404,7 @@ export class BudNodeMatcher {
     private processBudNode(reqSrcBudNode: BudNode) {
 
         var updownBudNodes: Array<BudNode> = loadedData.linksInstance.getUpOrDownBudNodes(reqSrcBudNode, this.direction,this.reqTags);
-        log.debug("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(), this.direction);
+        log.debug("ProcessBudNode", this.currentLevel, reqSrcBudNode.getName(), this.direction, updownBudNodes.length);
         for (var i: number = 0; i < updownBudNodes.length; i++) {
             var updownBudNode: BudNode = updownBudNodes[i];
             log.debug("updownBudNode", updownBudNode.getName());
@@ -414,6 +416,7 @@ export class BudNodeMatcher {
 
     protected processChildNodes(reqBudNode: BudNode, isActiveNode: boolean) {
         var reqBudNodeChildren: Array<BudNode> = reqBudNode.getChildren(this.reqTags);
+        log.debug("Children for ",reqBudNode.getName(), reqBudNodeChildren.length)
         
 
         for (var i: number = 0; i < reqBudNodeChildren.length; i++) {
