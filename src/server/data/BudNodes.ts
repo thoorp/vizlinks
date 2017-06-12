@@ -100,7 +100,7 @@ export class BudNodes {
     public getNodeTypes(): string[] {
         //var types: string[] = [];
         const mapper = x => x[0];
-        var types: string[] = R.map(mapper, [...this.budNodes])
+        var types: string[] = R.map(mapper, Array.from(this.budNodes));
         // var iter: IterableIterator<string> = this.budNodes.keys();
 
         // for (var type: IteratorResult<string> = iter.next(); !type.done; type = iter.next()) {
