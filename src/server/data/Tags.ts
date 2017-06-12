@@ -79,11 +79,9 @@ export class Tags {
             return false; //If passed tags is empty and current object has tags, it should not match
         }
 
-
-
         const condcheck = (curr) => this.isTagsExists(curr[0], pTags.getAllTagsForCategory(curr[0]))
 
-        return R.all(condcheck)([...(pTags.getAllTags())]);
+        return R.all(condcheck)(Array.from(pTags.getAllTags()));
 
         // for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
         //     retValue.push(this.isTagsExists(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value)));
@@ -97,6 +95,8 @@ export class Tags {
     public getAllTags(): Map<string, string[]> {
         return this.tags
     }
+
+
 
     /**
      * - return [] from the map for the key 
@@ -116,14 +116,19 @@ export class Tags {
         return this;
     }
 
+
     /**
      * - need to add all the lTags in the passed object to 'this' object 
      * @param pTag 
      */
     public addAllTags(pTags: Tags) {
-        R.forEach(
-            curr => this.addTags(curr[0], pTags.getAllTagsForCategory(curr[0])),
-            [...pTags.getAllTags()]);
+     
+     pTags.getAllTags().forEach(
+         (value,key,map)=> this.addTags(key, pTags.getAllTagsForCategory(key)),
+     )
+        // R.forEach(
+            // curr => this.addTags(curr[0], pTags.getAllTagsForCategory(curr[0])),
+            // [...pTags.getAllTags()]);
         // var iter: IterableIterator<string> = pTags.getAllTags().keys();
         // for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
         //     this.addTags(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value));

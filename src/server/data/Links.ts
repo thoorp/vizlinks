@@ -46,10 +46,10 @@ export class Links {
 		
 		const lateralapply= boolVal=> lateral?boolVal:!boolVal;
 		const condition = curr => {
-	//	if(curr.getSrcNode().equals(src))log.debug ("downstream nodes src matched",src.getName(),curr.getDestNode().getName(),
-		curr.getTags().getAllTags(),
-		((curr.getSrcNode().equals(src)) && lateralapply(curr.isDestLateral())
-			&& (curr.getTags().isAllTagsExists(tags) || !curr.getTags().hasTags())) );
+		// if(curr.getSrcNode().equals(src))log.debug ("downstream nodes src matched",src.getName(),curr.getDestNode().getName(),
+		// curr.getTags().getAllTags(),
+		// ((curr.getSrcNode().equals(src)) && lateralapply(curr.isDestLateral())
+		// 	&& (curr.getTags().isAllTagsExists(tags) || !curr.getTags().hasTags())) );
 
 			return ((curr.getSrcNode().equals(src)) && lateralapply(curr.isDestLateral())
 			&& (curr.getTags().isAllTagsExists(tags) || !curr.getTags().hasTags()))
