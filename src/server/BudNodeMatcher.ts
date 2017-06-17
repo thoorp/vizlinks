@@ -13,7 +13,7 @@ var loadedData = require("./LoadedData");
 const R = require("ramda");
 
 var log = Logger.createLogger({ name: 'vizLinks' });
-log.level("debug");
+log.level("info");
 
 export class BudNodeMatcher {
     reqTags: Tags;
