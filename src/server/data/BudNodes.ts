@@ -125,7 +125,7 @@ export class BudNodes {
             if (tags.hasTags() ) 
                 result.getTags().addAllTags(tags);
            else
-                result.removeAllTags(); 
+                result.getTags().removeAllTags(); 
             
         }
 
