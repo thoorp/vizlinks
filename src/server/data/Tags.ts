@@ -5,7 +5,7 @@ export class Tags {
 
     // Key - TagCategory a string; Value - multiple tags under that category Ex: Env:{Dev,Systemtest}
     public tags: Map<string, Array<string>> = new Map<string, Array<string>>();
-//    public log: Logger = Logger.createLogger({ name: 'vizLinks', level: 'debug' });
+    //    public log: Logger = Logger.createLogger({ name: 'vizLinks', level: 'debug' });
 
     /**
      * Clone the current object so that it can be associated while creating Links or BudNodes
@@ -122,16 +122,17 @@ export class Tags {
      * @param pTag 
      */
     public addAllTags(pTags: Tags) {
-     
-     pTags.getAllTags().forEach(
-         (value,key,map)=> this.addTags(key, pTags.getAllTagsForCategory(key)),
-     )
-        // R.forEach(
-            // curr => this.addTags(curr[0], pTags.getAllTagsForCategory(curr[0])),
-            // [...pTags.getAllTags()]);
-        // var iter: IterableIterator<string> = pTags.getAllTags().keys();
-        // for (var tagCategory: IteratorResult<string> = iter.next(); !tagCategory.done; tagCategory = iter.next()) {
-        //     this.addTags(tagCategory.value, pTags.getAllTagsForCategory(tagCategory.value));
-        // }
+
+        pTags.getAllTags().forEach(
+            (value, key, map) => this.addTags(key, pTags.getAllTagsForCategory(key)),
+        )
+    }
+
+
+    /**
+     * Removes all tags 
+     */
+    public removeAllTags() {
+        this.tags.clear()
     }
 }

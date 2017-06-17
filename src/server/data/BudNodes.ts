@@ -6,16 +6,22 @@ import * as loadedData from "../LoadedData";
 const R = require("ramda");
 
 export class BudNodes {
-    //  public static INSTANCE: BudNodes = new BudNodes();
 
     // this should be displayed if it is not
     // active node
     public budNodes: Map<string, Array<BudNode>> = new Map<string, Array<BudNode>>();
 
     public BudNodes() {
-        // this.budNodes = new Map<string, Array<BudNode>>();
     }
 
+    /**
+     * Adds a passed node to the master map under passed type. If node passed is first one for the type,
+     * then create array with this node and add it to msater map.
+     * Add node only if the passed node does node does not exist
+     * @param type 
+     * @param node 
+     * @param tags optional tags to search
+     */
     public addNode(type: string, node: BudNode, tags: Tags = new Tags()) {
         var nodes: Array<BudNode> = this.budNodes.get(type);
         if (nodes == null) {
@@ -43,95 +49,87 @@ export class BudNodes {
 
         result = R.find(x => x.getName() == name && !x.getTags().hasTags())(list);
 
-        // for (var i = 0; i < list.length; i++) {
-
-        //     if (list[i].getName() == name  && !list[i].getTags().hasTags()) {
-        //         result = list[i];
-        //         break;
-        //     }
-
-        // }
         //If not found, find the node irrespective of tags
         //removed && tags.hasTags()
         if (result == null) {
             result = R.find(x => x.getName() == name)(list);
 
-            //      for (var i = 0; i < list.length; i++) {
-
-            //     if (list[i].getName() == name ) {
-            //         result = list[i];
-            //         break;
-            //     }
-
-            // }   
         }
 
         return result;
     }
 
 
+    /**
+     * Searches all types and finds a node with name as passed
+     * @param strnode name of the node that needs to be searched
+     * @param tags optional tags to filter by
+     */
     public getNodeByName(strnode: string, tags: Tags = new Tags()): BudNode {
 
         var result: BudNode;
 
-        const notFound = (acc, curr) => acc == null;
-        const reducer = (acc, curr) => this.getNode(curr[0], strnode, tags);
-        result = R.reduceWhile(notFound, reducer, null, this.budNodes);
-        // const filtercond = (curr) =>this.getNode(curr[0], strnode, tags) !=null
-        // var categMap = R.filter(filtercond,this.budNodes);
-        // result = categMap !=null ? this.getNode(categMap, strnode, tags);
-        // var iter: IterableIterator<string> = this.budNodes.keys();
-
-        // for (var type: IteratorResult<string> = iter.next(); !type.done; type = iter.next()) {
-        //     result = this.getNode(type.value, strnode, tags);
-        //     if (result != null)
-        //         break;
-        // }
+        //Use  reduce through each type and if found, stop
+        const reducer = (acc, curr) => {
+            var node = this.getNode(curr[0], strnode, tags);
+            return node ? R.reduced(node) : null;
+        }
+        result = R.reduce(reducer, null, this.budNodes);
 
         return result;
     }
 
 
+    /**
+     * returns array of all nodes by given type
+     * @param type 
+     */
     public getNodes(type: string): BudNode[] {
         return this.budNodes.get(type);
 
     }
 
+    /**
+     * returns string array of all types
+     */
     public getNodeTypes(): string[] {
-        //var types: string[] = [];
         const mapper = x => x[0];
         var types: string[] = R.map(mapper, Array.from(this.budNodes));
-        // var iter: IterableIterator<string> = this.budNodes.keys();
-
-        // for (var type: IteratorResult<string> = iter.next(); !type.done; type = iter.next()) {
-        //     types.push(type.value);
-        // }
         return types;
     }
 
+    /**
+     * checks if node exists. If not create a node and add it to master list and return
+     * add tags to the node if tags is passed as param and if the node is being created new 
+     * or already has existing tags
+     * @param type 
+     * @param name 
+     * @param configData 
+     * @param tags 
+     */
     public getOrAddNode(type: string, name: string, configData: any, tags: Tags = new Tags()): BudNode {
         var result: BudNode = this.getNode(type, name, tags);
         //if it finds the node, and tagobject.hasTags() is true & returnednode.hasTags() is also true - 
         //then call addTags() by passing param tags object
 
         if (result == null) {
-            //TODO 
-            //BudNodeTypeMetaData tmd = BudNodeTypeMetaData.INSTANCE.TYPEMETADATA.get(type);
             result = new BudNode(name, type, configData, tags);
 
-            // copy reference to graphviz properties
-            // result.setConfigProperties(tmd.getProperties());
             this.addNode(type, result, tags);
 
-        } else {
-            if (tags.hasTags() && result.getTags().hasTags()) {
+        } 
+        //If the found object has tags then if param has tags, add these tags
+        //If param has no tags, then remove tags from Node because per principle of design 
+        //if there is a node without tags and with tags - have Node without tags and tags are attached to Links 
+        if(result.getTags().hasTags()){
+            if (tags.hasTags() ) 
                 result.getTags().addAllTags(tags);
-            }
+           else
+                result.removeAllTags(); 
+            
         }
 
         return result;
     }
 
 }
-
-

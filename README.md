@@ -15,6 +15,9 @@ tsc -p . -m commonjs
 #run gulp.  You can also add additional parameter "watch" to keep watching for files
 gulp build
 
-#run app
+#run app.  
 cd vizlinks/dist/server
 node app.js
+
+#you can also use nodemon to monitor changes to files and restart server immediately (for dev purposes). Adding a delay of 5 seconds as we want nodemon to wait till all files are copied over by gulp
+nodemon --delay 5 app.js

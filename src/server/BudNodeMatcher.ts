@@ -25,7 +25,6 @@ export class BudNodeMatcher {
     calcMaxLevels: number = 0;
     direction: number = 0; //Keeps track of current direction
     currentLevel: number = 0; // transient variable that always track the level in which the current processing is happening
-    //BudNode toNode = null; //if the graph is requested between 2 nodes, this stores the destination node to which graph should be drawn
     //activeNodes are the ones that will be processed for both up&downstream. Earlier it was single node, but now multiple
     activeBudNodes: Array<BudNode> = [];
     //commonNodes that are connected to all active nodes; applicable when there is more than one active node
@@ -129,9 +128,6 @@ export class BudNodeMatcher {
             //Handle condition if one side of edge is to a dependent node and other side is to a independent node
             if (reqSrcBudNode.isDependentLevel()) req = reqSrcBudNode.getParent();
             updown = updownBudNode.getParent();
-            // }
-            // else
-            //     updown = updownBudNode.getParent();
         }
         log.debug("buildEdge", reqSrcBudNode.getName(), updownBudNode.getName(), req ? req.getName() : null, updown ? updown.getName() : null);
 
@@ -165,7 +161,6 @@ export class BudNodeMatcher {
 
         //Generate graph for each activeNode
         this.generateGraphForActiveNodes();
-        //console.log("After generate graph",this.graph);
         //To highlight the passed active nodes (the heading/text)		
         this.highlightActiveNodes();
 
@@ -231,7 +226,6 @@ export class BudNodeMatcher {
             this.direction, this.reqTags);
 
         var upstreamlaterals: boolean = (this.direction == BudNodeMatcher.DIRECTION_UP && isActiveNode);
-        //  console.log ("findAndBuildLateralNodes",reqBudNodeForLaterals.getName(),lateralNodes.length);
 
         const buildLateralNodeAndDependency = lateralNode => {
 
@@ -249,19 +243,6 @@ export class BudNodeMatcher {
 
         lateralNodes.filter(lateralNodeFilter)
             .forEach(buildLateralNodeAndDependency);
-
-        // for (var i: number = 0; i < lateralNodes.length; i++) {
-
-        //     var lateralNode: BudNode = lateralNodes[i];
-        //     // use displayForNonActiveNode to determine whether to build lateral
-        //     // nodes or not for non-active nodes
-        //     if ((isActiveNode || lateralNode.isDisplayForNonActiveNode())
-        //         // the below condition prevents infinite recursive loop.?
-        //         && !this.activeBudNode.equals(lateralNode)) {
-        //         this.buildLateralNode(reqBudNodeForLaterals, lateralNode, upstreamlaterals);
-        //         this.populateDetailedDependency(lateralNode, false);
-        //     }
-        // }
     }
 
     /**
@@ -347,8 +328,6 @@ export class BudNodeMatcher {
         //highlight child node
         var activeNode: VizNode = activeNodeCluster.findNode(activeBudNode.getName());
         if (activeNode != null) activeNode.setHighlight(true);
-        //  }
-        //  }
     }
 
 
@@ -357,7 +336,6 @@ export class BudNodeMatcher {
 	 * If child node is requested, both parent & child are highlighted
 	 */
     protected highlightActiveNodes() {
-        //for (var i = 0; i < this.activeBudNodes.length; i++) {
         const highlightActiveNode = (activeBudNode: BudNode) => {
             var srcNodeCluster: Cluster = this.graph.findClusterByLabel(activeBudNode.getName());
             // highlight text; finds if requested node is of high level;
@@ -386,9 +364,6 @@ export class BudNodeMatcher {
         this.commonBudNodes.forEach(highlightCommonNode);
     }
 
-    // public  isDetailed():boolean {
-    // 	return this.isDetailed;
-    // }
 
     public isDetailedOrTopIndependentLevel(updownBudNode: BudNode): boolean {
         return this.isDetailed || updownBudNode.isTopIndependentLevel();
@@ -406,28 +381,10 @@ export class BudNodeMatcher {
             (value, key, map) =>
                 tCommonNodes = (tCommonNodes) ? R.intersection(tCommonNodes, Array.from(value)) : Array.from(value)
         )
-        // var iter: IterableIterator<BudNode> = dependentBudNodes.keys();
-        // for (var type: IteratorResult<BudNode> = iter.next(); !type.done; type = iter.next()) {
-
-        //     //while (itr.hasNext()) {
-        //     var sdependentNodes: Set<BudNode> = dependentBudNodes.get(type.value);
-
-        //     //This method retains only those nodes that are also in the passed set (intersection)
-        //     tCommonNodes = (tCommonNodes) ? R.intersection(tCommonNodes, [...sdependentNodes]) : [...sdependentNodes];
-
-        //     //tCommonNodes = R.intersection(tCommonNodes, [...sdependentNodes]);
-        //     // commonNodesSet = new Set(Array.from(commonNodesSet).filter(x => sdependentNodes.has(x)));
-
-
-        // }
-        //if (tCommonNodes == null) return;// {
-        //Needs to do a union instead of push; convert array into set 
+        
+        //combine all this with commonBudNodes that starts with passed active nodes
         this.commonBudNodes = R.union(this.commonBudNodes, tCommonNodes);
-        // var tempset: Set<BudNode> = new Set(this.commonBudNodes);
-        // commonNodesSet.forEach(element => tempset.add(element));
-        // this.commonBudNodes = Array.from(tempset);
-
-        // }
+        
     }
 
 
@@ -487,13 +444,6 @@ export class BudNodeMatcher {
 
         updownBudNodes.forEach(processupDownNode);
 
-        // for (var i: number = 0; i < updownBudNodes.length; i++) {
-        //     var updownBudNode: BudNode = updownBudNodes[i];
-        //     log.debug("updownBudNode", updownBudNode.getName());
-        //     this.buildDestNode(updownBudNode);
-        //     this.buildEdge(reqSrcBudNode, updownBudNode);
-        //     this.populateDetailedDependency(updownBudNode, false);
-        // }
     }
 
     /**
@@ -599,16 +549,6 @@ export class BudNodeMatcher {
         }
         return hiddenNode;
     }
-
-    // protected intersection(setA: Set<BudNode>, setB: Set<BudNode>): Set<BudNode> {
-    //     var intersection = new Set<BudNode>();
-    //     for (var elem of setB) {
-    //         if (setA.has(elem)) {
-    //             intersection.add(elem);
-    //         }
-    //     }
-    //     return intersection;
-    // }
 
 }
 
