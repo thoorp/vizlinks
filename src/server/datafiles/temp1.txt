@@ -1,0 +1,31 @@
+*app	*screen	*api	*function
+RPE	Sanctions Screening	clink-sanctions-screening-api	POST /quotes/{quote-no}/sanctions-screening
+Turbo Broker Portal	Address Lookup	gnaf-address-api	GET /addresses
+Turbo Broker Portal	Get Broker Details	turbo-broker-transaction-exp-api	GET /brokers/{id}
+Turbo Broker Portal	Get Worklist	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/worklist
+Turbo Broker Portal	Get Quotes	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/quotes
+Turbo Broker Portal	Get Referrals	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/referrals
+Turbo Broker Portal	Get Renewal Invitations	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/renewal-invitations
+Turbo Broker Portal	Advanced Search	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/advanced-search
+Turbo Broker Portal	Get Transaction Counts	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/counts
+Turbo Broker Portal	Get Transaction Notifications	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/notifications
+Turbo Broker Portal	Get Transaction Details	turbo-broker-transaction-exp-api	GET /brokers/{id}/transactions/{transaction-id}
+Turbo Broker Portal	Get Application Actions	turbo-broker-transaction-exp-api	GET /brokers/{id}/transactions/{transaction-id}/actions
+Turbo Broker Portal	Update Notification Read Status	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/{transaction-id}/notification
+Turbo Broker Portal	Mark Quote As Lost	turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/{transaction-id}/lost
+Turbo Broker Portal	Create Draft Quote	turbo-draft-quote-exp-api	POST /draft-quotes
+Turbo Broker Portal	Retrieve Draft Quote	turbo-draft-quote-exp-api	GET /draft-quotes/{quote-no}
+Turbo Broker Portal	Update Draft Quote	turbo-draft-quote-exp-api	PUT /draft-quotes/{quote-no}
+Turbo Broker Portal	Delete Draft Quote	turbo-draft-quote-exp-api	DELETE /draft-quotes/{quote-no}
+Turbo Broker Portal	Cancellation Quote	turbo-insurance-cancellation-exp-api	POST /quotes/{quote-no}
+Turbo Broker Portal	Cancellation Bind	turbo-insurance-cancellation-exp-api	POST /quotes/{quote-no}/bind
+Turbo Broker Portal	Endorsement Quote	turbo-insurance-endorsement-exp-api	POST /quotes/{quote-no}
+Turbo Broker Portal	Endorsement Bind	turbo-insurance-endorsement-exp-api	POST /quotes/{quote-no}/bind
+Turbo Broker Portal	New Business Quote	turbo-insurance-new-business-exp-api	POST /quotes/{quote-no}
+Turbo Broker Portal	New Business Bind	turbo-insurance-new-business-exp-api	POST /quotes/{quote-no}/bind
+Turbo Broker Portal	Risk Question Sets - Dropdown Values	turbo-insurance-refdata-exp-api	GET /reference-data/{productType}
+Turbo Broker Portal	Risk Question Sets	turbo-insurance-refdata-exp-api	GET /risk-question-sets
+Turbo Broker Portal	Vehicle Lookup	turbo-insurance-refdata-exp-api	GET /vehicle-models/{year}
+Turbo Broker Portal	Vehicle Lookup	turbo-insurance-refdata-exp-api	GET /vehicle-models/{year}/{make}
+Turbo Broker Portal	Renewal Quote	turbo-insurance-renewal-exp-api	POST /quotes/{quote-no}
+Turbo Broker Portal	Renewal Bind	turbo-insurance-renewal-exp-api	POST /quotes/{quote-no}/bind
