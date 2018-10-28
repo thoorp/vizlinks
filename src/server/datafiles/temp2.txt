@@ -1,0 +1,10 @@
+*api	*function	*api	*function
+turbo-insurance-renewal-exp-api	POST /quotes/{quote-no}	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}
+turbo-insurance-renewal-exp-api	POST /quotes/{quote-no}/bind	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}/bind
+turbo-insurance-cancellation-exp-api	POST /quotes/{quote-no}	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}
+turbo-insurance-endorsement-exp-api	POST /quotes/{quote-no}	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}
+turbo-insurance-new-business-exp-api	POST /quotes/{quote-no}	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}
+turbo-insurance-cancellation-exp-api	POST /quotes/{quote-no}/bind	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}/bind
+turbo-insurance-endorsement-exp-api	POST /quotes/{quote-no}/bind	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}/bind
+turbo-insurance-new-business-exp-api	POST /quotes/{quote-no}/bind	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}/bind
+turbo-broker-transaction-exp-api	POST /brokers/{id}/transactions/{transaction-id}/lost	turbo-insurance-prc-api	POST /insurance-new-business/quotes/{quote-no}/lost
