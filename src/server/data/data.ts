@@ -57,7 +57,7 @@ function processFile(err, data) {
         var dataArray = [];
 
         var i = 0;
-        var lines = data.split("\n");
+        var lines = data.split("\r\n");
         var headers = lines[0].split("\t");
         //read all the data into a array(row) of arrays(col)
         for (i = 0; i < lines.length - 1; i++) {
