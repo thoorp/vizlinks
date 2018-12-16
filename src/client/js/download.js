@@ -10,12 +10,12 @@ var downloadComponent = Vue.component("download", {
                 url: this.getEndpointForSearch(this.searchNodes[0].value),
                 type: "get",
                 headers: {
-                    Accept: this.params.acceptHeader,
+                    Accept: "application/svg+xml"
                 },                  
                 data: this.params,
                 success: function (result) {
-                    var blob = new Blob([result.documentElement], {
-                        type: "application/xml+svg;charset=utf-8"
+                    var blob = new Blob([result], {
+                        type: "application/svg+xml;charset=utf-8"
                     });
                     saveAs(blob, "vizdots.svg");
                 },
