@@ -5,6 +5,9 @@ Install command-line tools globally if not done already.
 
   `npm install -g typescript`
   
+   npm install typings --global
+	 typings install
+    
   `npm install -g gulp`
   
   `npm install -g nodemon`
