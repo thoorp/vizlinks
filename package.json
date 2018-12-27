@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha -r ts-node/register data/tests/testDataClass.ts"
+    "start": "node dist/server/app.js",
+    "test": "mocha -r ts-node/register ./dist/server/data/tests/testDataClass.js"
   },
   "dependencies": {
     "@types/bluebird": "^3.5.25",
@@ -38,6 +38,7 @@
     "@types/mocha": "^2.2.40",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "mocha": "^5.2.0",
     "nodemon": "^1.11.0"
   }
 }
