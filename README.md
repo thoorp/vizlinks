@@ -12,7 +12,10 @@ Install command-line tools globally if not done already.
   
   `npm install -g nodemon`
   
-
+ Get npm libraries and typings
+		npm install
+		typings install
+		 
 Run tsc (type script compiler).
 
 ` tsc -p . -m commonjs`
