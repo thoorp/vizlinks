@@ -37,6 +37,7 @@ build/*
 .pmd/*
 .pmd
 .reports/cpd-report.txt
+package-lock.json
 
 # Locally stored "Eclipse launch configurations"
 *.launch
