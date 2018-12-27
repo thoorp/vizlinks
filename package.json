@@ -7,6 +7,7 @@
     "test": "mocha -r ts-node/register data/tests/testDataClass.ts"
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.25",
     "@types/bunyan": "0.0.36",
     "@types/chai": "^3.5.0",
     "@types/mocha": "^2.2.40",
@@ -25,7 +26,7 @@
     "jquery": "^3.2.1",
     "screenfull": "^3.2.0",
     "serve-static": "^1.12.3",
-    "svg-pan-zoom": "github:ariutta/svg-pan-zoom",
+    "svg-pan-zoom": "^2.3.0",
     "ts-node": "^3.0.2",
     "typings": "^2.1.1",
     "viz.js": "^1.7.1",

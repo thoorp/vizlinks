@@ -8,7 +8,9 @@ Install command-line tools globally if not done already.
   `npm install -g gulp`
   
   `npm install -g nodemon`
-  
+
+
+`npm install`
 
 Run tsc (type script compiler).
 
@@ -22,7 +24,8 @@ Build app.
 
 Run app.
 
-`cd vizlinks/dist/server node app.js`  
+`cd vizlinks/dist/server`
+ `node app.js`  
 
 Open Browser.
 
